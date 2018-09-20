@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bem_vindo"
+        android:layout_marginTop="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_user_name"
+        android:layout_marginLeft="3dp"
+        app:srcCompat="@drawable/ic_extension_black_24dp"
+        />
+</LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="350dp"
+        app:srcCompat="@drawable/ic_settings_black_24dp"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="200dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/ic_account_circle_black_24dp"
+
+         />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Altura: "
+            android:textColor="#1E90FF"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_altura"
+            android:text="1.73"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Peso: "
+            android:textColor="#1E90FF"
+            android:textStyle="bold"
+            android:layout_marginLeft="170dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_peso"
+            android:text="75kg"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        >
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_favorite_black_24dp"
+            android:id="@+id/fab_health"
+            android:onClick="abrirDialogoBatimento"
+
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_directions_walk_black_24dp"
+            android:layout_toRightOf="@id/fab_health"
+            android:id="@+id/fab_step"
+            android:layout_marginLeft="20dp"
+            android:onClick="abrirDialogoTempoOcioso"
+
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_access_alarm_black_24dp"
+            android:layout_toRightOf="@id/fab_step"
+            android:id="@+id/fab_time"
+            android:layout_marginLeft="20dp"
+            android:onClick="abrirDialogoTempoSono"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_directions_run_black_24dp"
+            android:id="@+id/fab_run"
+            android:layout_marginTop="65dp"
+            android:onClick="abrirDialogoAtividade"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_local_drink_black_24dp"
+            android:id="@+id/fab_drink"
+            android:layout_toRightOf="@id/fab_run"
+            android:layout_marginTop="65dp"
+            android:layout_marginLeft="20dp"
+            android:onClick="abrirDialogoLiquido"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_extension_black_24dp"
+            android:layout_toRightOf="@id/fab_drink"
+            android:layout_marginTop="65dp"
+            android:layout_marginLeft="20dp"
+            android:onClick="abrirDialogoPuzzle"
+            />
+
+    </RelativeLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="30dp"
+
+        >
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/pie_chart"
+
+        />
+
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/pie_chart_2"
+        android:layout_marginLeft="30dp"
+        />
+    </LinearLayout>
+
+
+</LinearLayout>
