@@ -22,61 +22,72 @@
             android:orientation="vertical"
             >
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/txt_email"
+                android:hint="E-mail"
+                android:singleLine="true"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/txt_senha"
+                android:hint="Senha"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                />
 
 
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/txt_nome"
-            android:hint="Nome"
-            android:singleLine="true"
-            />
-
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/txt_nome"
+                android:hint="Nome"
+                android:singleLine="true"
+                />
 
 
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/txt_peso"
-            android:hint="Peso"
-            android:singleLine="true"
-            />
-
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/txt_peso"
+                android:hint="Peso"
+                android:singleLine="true"
+                />
 
 
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/txt_altura"
-            android:hint="Altura"
-            android:singleLine="true"
-            />
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/txt_nasc"
-            android:hint="Data Nascimento"
-            />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/txt_altura"
+                android:hint="Altura"
+                android:singleLine="true"
+                />
 
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/txt_nasc"
+                android:hint="Data Nascimento"
+                />
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Salvar"
-        android:layout_marginTop="30dp"
-        android:onClick="salvarConfig"
-        />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salvar"
+                android:layout_marginTop="30dp"
+                android:onClick="salvarConfig"
+                />
 
 
         </LinearLayout>

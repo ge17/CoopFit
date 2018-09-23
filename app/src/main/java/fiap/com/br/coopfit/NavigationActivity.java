@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.service.CoopFitService;
 import fiap.com.br.coopfit.to.Pessoa;
 import retrofit2.Call;
@@ -59,8 +60,11 @@ public class NavigationActivity extends AppCompatActivity
     TextView tvUser;
 
     String nome;
+    String senha;
 
-
+    EditText txtEmail;
+    EditText txtSenha;
+    EditText txtNome;
 
 
     Spinner spDispositivos;
@@ -117,7 +121,10 @@ public class NavigationActivity extends AppCompatActivity
             if(bundle != null){
 
                 nome = bundle.getString("user");
+                senha = bundle.getString("pass");
                 tvUser.setText(nome);
+
+
 
             }
         }
@@ -195,6 +202,15 @@ public class NavigationActivity extends AppCompatActivity
                         .inflate(R.layout.activity_config, dynamicContent, false);
 
                 dynamicContent.addView(wizardView);
+
+              txtEmail = findViewById(R.id.txt_email);
+              txtSenha = findViewById(R.id.txt_senha);
+              txtNome  = findViewById(R.id.txt_nome);
+
+                txtEmail.setText(nome);
+                txtSenha.setText(senha);
+                txtNome.setText(nome);
+
 //                carregarDadosConfig();
             } else if (id == R.id.nav_manage) {
                 View wizardView = getLayoutInflater()
@@ -337,46 +353,46 @@ public class NavigationActivity extends AppCompatActivity
     }
 
 
-    public void salvarConfig(View view) {
-        etNome = findViewById(R.id.txt_nome);
-        etPeso = findViewById(R.id.txt_peso);
-        etAltura = findViewById(R.id.txt_altura);
-        etNasc = findViewById(R.id.txt_nasc);
-
-        Pessoa p = new Pessoa();
-
-        p.setNome(String.valueOf(etNome.getText()));
-        p.setPeso(Double.valueOf(String.valueOf(etPeso.getText())));
-        p.setAltura(Double.valueOf(String.valueOf(etAltura.getText())));
-        p.setNascimento(Date.valueOf(String.valueOf(etNasc.getText())));
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.0.106:8080/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-
-        CoopFitService api = retrofit.create(CoopFitService.class);
-
-        api.setPessoa(p).enqueue(new Callback<Pessoa>() {
-            @Override
-            public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Pessoa> call, Throwable t) {
-                Toast.makeText(NavigationActivity.this, "Erro" + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public void salvarConfig(View view) {
+//        etNome = findViewById(R.id.txt_nome);
+//        etPeso = findViewById(R.id.txt_peso);
+//        etAltura = findViewById(R.id.txt_altura);
+//        etNasc = findViewById(R.id.txt_nasc);
+//
+//        Pessoa p = new Pessoa();
+//
+//        p.setNome(String.valueOf(etNome.getText()));
+//        p.setPeso(Double.valueOf(String.valueOf(etPeso.getText())));
+//        p.setAltura(Double.valueOf(String.valueOf(etAltura.getText())));
+//        p.setNascimento(Date.valueOf(String.valueOf(etNasc.getText())));
+//
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://10.0.2.2:8080/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
+//            retrofit = new Retrofit.Builder()
+//                    .baseUrl("http://192.168.0.106:8080/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build();
+//        }
+//
+//        CoopFitService api = retrofit.create(CoopFitService.class);
+//
+//        api.setPessoa(p).enqueue(new Callback<Pessoa>() {
+//            @Override
+//            public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Pessoa> call, Throwable t) {
+//                Toast.makeText(NavigationActivity.this, "Erro" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
 
     public void carregarDadosMedimento(){
@@ -459,6 +475,35 @@ public class NavigationActivity extends AppCompatActivity
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);
         chart.invalidate();
+    }
+
+
+    public void salvarConfig(View view) {
+
+        try {
+            Pessoa p = new Pessoa();
+            p.setEmail(String.valueOf(txtEmail.getText()));
+            p.setSenha(String.valueOf(txtSenha.getText()));
+            p.setNome(String.valueOf(txtNome.getText()));
+
+            CoopFitDB db = new CoopFitDB(this);
+
+            db.updatePessoa(p);
+            db.close();
+
+
+            Toast.makeText(this, "Dados atualizados com sucesso!", Toast.LENGTH_SHORT).show();
+
+//        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+//
+//        PessoaPreferences dao = new PessoaPreferences(preferences);
+//        dao.salvarPessoaPreference(p.getNome(),p.getNome());
+//        dao.salvarPessoaPreference(p.getSenha(),p.getSenha());
+
+        }catch (Exception e){
+            Toast.makeText(this, "Erro ao atualizar", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

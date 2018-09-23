@@ -446,13 +446,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             CoopFitDB db = new CoopFitDB(this);
 //        db.insertPessoa(p);
             Pessoa p = db.findPessoa(u, s);
+            db.close();
 
-            if (p != null || (u.equals("user") && s.equals("123"))) {
+            if (p != null) {
 
-//            Toast.makeText(this, "Vamos lá " + user, Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Vamos lá ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
+
                 Intent i = new Intent(this, NavigationActivity.class);
                 i.putExtra("user", u);
+                i.putExtra("pass", s);
                 startActivity(i);
                 finish();
             } else {

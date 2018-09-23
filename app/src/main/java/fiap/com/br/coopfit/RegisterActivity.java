@@ -13,6 +13,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText txtEmail;
     EditText txtSenha;
+    EditText txtNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         txtEmail = findViewById(R.id.txt_email);
         txtSenha = findViewById(R.id.txt_senha);
+        txtNome = findViewById(R.id.txt_nome);
     }
 
     public void saveChanges(View view) {
@@ -29,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
             Pessoa p = new Pessoa();
             p.setEmail(txtEmail.getText().toString());
             p.setSenha(txtSenha.getText().toString());
+            p.setNome(txtNome.getText().toString());
 
             CoopFitDB db = new CoopFitDB(this);
             db.insertPessoa(p);
@@ -36,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
             finish();
         }catch (Exception e){
-
+            Toast.makeText(this, "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
         }
     }
 }

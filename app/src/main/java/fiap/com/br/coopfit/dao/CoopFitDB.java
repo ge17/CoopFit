@@ -29,7 +29,7 @@ public class CoopFitDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table if not exists T_PESSOA(email text, senha text)");
+        db.execSQL("create table if not exists T_PESSOA(email text, senha text, nome text)");
     }
 
     @Override
@@ -43,8 +43,20 @@ public class CoopFitDB extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("email", pessoa.getEmail());
         cv.put("senha", pessoa.getSenha());
+        cv.put("nome", pessoa.getNome());
 
         db.insert(TB_PESSOA, null, cv);
+    }
+
+    public void updatePessoa(Pessoa pessoa) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put("email", pessoa.getEmail());
+        cv.put("senha", pessoa.getSenha());
+        cv.put("nome", pessoa.getNome());
+
+        db.update(TB_PESSOA, cv, "email = ?", new String[]{pessoa.getEmail()});
     }
 
     public Pessoa findPessoa(String email, String senha) {

@@ -5,33 +5,51 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.dao.PessoaPreferences;
 import fiap.com.br.coopfit.to.Pessoa;
 
 public class ConfigActivity extends AppCompatActivity {
 
-    EditText etNome;
+
+    EditText txtEmail;
+    EditText txtSenha;
+    EditText txtNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        etNome = findViewById(R.id.txt_nome);
+        txtEmail = findViewById(R.id.txt_email);
+        txtSenha = findViewById(R.id.txt_senha);
+        txtNome = findViewById(R.id.txt_nome);
     }
 
     public void salvarConfig(View view) {
 
-        Pessoa p = new Pessoa();
-        p.setNome(String.valueOf(etNome.getText()));
-        p.setSenha("123");
+        try {
+            Pessoa p = new Pessoa();
+            p.setEmail(String.valueOf(txtEmail.getText()));
+            p.setSenha(String.valueOf(txtSenha.getText()));
+            p.setNome(String.valueOf(txtNome.getText()));
 
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            CoopFitDB db = new CoopFitDB(this);
 
-        PessoaPreferences dao = new PessoaPreferences(preferences);
-        dao.salvarPessoaPreference(p.getNome(),p.getNome());
-        dao.salvarPessoaPreference(p.getSenha(),p.getSenha());
+            db.updatePessoa(p);
+            db.close();
+
+//        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+//
+//        PessoaPreferences dao = new PessoaPreferences(preferences);
+//        dao.salvarPessoaPreference(p.getNome(),p.getNome());
+//        dao.salvarPessoaPreference(p.getSenha(),p.getSenha());
+
+        }catch (Exception e){
+            Toast.makeText(this, "Erro ao atualizar", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
