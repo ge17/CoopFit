@@ -25,11 +25,29 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="bem_vindo">Bem vindo</string>
+    <string name="bem_vindo">Bem vindo,</string>
     <string name="user_name">Usuário</string>
+    <string name="altura">Altura </string>
+    <string name="peso">Peso </string>
+    <string name="sentido">Como você está se sentido?</string>
+    <string name="locomocao">Qual meio de locomoção utilizado hoje?</string>
+    <string name="quais_frutas">De quais frutas se alimentou hoje?</string>
+    <string name="qtd_copos_agua">Quantos copos de água tomou hoje?</string>
+    <string name="salvar">Salvar</string>
+    <string name="enviar">Enviar</string>
+    <string name="senha">Senha</string>
+    <string name="nome">Nome</string>
+    <string name="data_nascimento">Data Nascimento</string>
+    <string name="meu_perfil">Meu Perfil</string>
+    <string name="sair">Sair</string>
+    <string name="lembrar">Lembrar</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="esqueci_a_senha">Esqueci a senha</string>
+    <string name="digite_seu_email">Digite seu e-mail</string>
 
 
     <string-array name="array_meio_locomocao">
+        <item>Selecione uma opção</item>
         <item>Veículo Próprio</item>
         <item>Transporte Público</item>
         <item>Bicicleta</item>
@@ -37,6 +55,7 @@
     </string-array>
 
     <string-array name="array_situacao">
+        <item>Selecione uma opção</item>
         <item>Feliz</item>
         <item>Triste</item>
         <item>Chateado(a)</item>

@@ -69,11 +69,9 @@
                 <CheckBox
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lembrar"
+                    android:text="@string/lembrar"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/colorPink" />
-
-
+                    android:textColor="@color/colorTheme" />
 
 
             <Button
@@ -81,10 +79,10 @@
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold"
                 android:layout_marginTop="15dp"
-                android:background="@color/colorPink"/>
+                android:background="@color/colorTheme"
+                android:text="@string/action_sign_in"
+                android:textStyle="bold" />
 
 
 
@@ -100,9 +98,9 @@
                     style="?android:textAppearanceSmall"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:text="Cadastrar"
+                    android:text="@string/cadastrar"
                     android:textStyle="bold"
-                    android:background="@color/colorPink"
+                    android:background="@color/colorTheme"
                     android:onClick="register"
                     />
 
@@ -112,10 +110,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:text="Esqueci a senha"
+                    android:text="@string/esqueci_a_senha"
                     android:onClick="recoverPassword"
                     android:textStyle="bold"
-                    android:background="@color/colorPink"/>
+                    android:background="@color/colorTheme"/>
 
 
             </LinearLayout>

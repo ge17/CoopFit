@@ -203,36 +203,37 @@ public class NavigationActivity extends AppCompatActivity
 
                 dynamicContent.addView(wizardView);
 
-              txtEmail = findViewById(R.id.txt_email);
-              txtSenha = findViewById(R.id.txt_senha);
-              txtNome  = findViewById(R.id.txt_nome);
+                txtEmail = findViewById(R.id.txt_email);
+                txtSenha = findViewById(R.id.txt_senha);
+                txtNome = findViewById(R.id.txt_nome);
 
                 txtEmail.setText(nome);
                 txtSenha.setText(senha);
                 txtNome.setText(nome);
 
 //                carregarDadosConfig();
-            } else if (id == R.id.nav_manage) {
-                View wizardView = getLayoutInflater()
-                        .inflate(R.layout.activity_pass_recover, dynamicContent, false);
+//            } else if (id == R.id.nav_manage) {
+//                View wizardView = getLayoutInflater()
+//                        .inflate(R.layout.activity_pass_recover, dynamicContent, false);
+//
+//                dynamicContent.addView(wizardView);
+//            }
+//            }else if (id == R.id.nav_share) {
+//
+//                View wizardView = getLayoutInflater()
+//                        .inflate(R.layout.activity_measure, dynamicContent, false);
+//
+//                dynamicContent.addView(wizardView);
+//
+//                carregarDadosMedimento();
 
-                dynamicContent.addView(wizardView);
-            } else if (id == R.id.nav_share) {
-
-                View wizardView = getLayoutInflater()
-                        .inflate(R.layout.activity_measure, dynamicContent, false);
-
-                dynamicContent.addView(wizardView);
-
-                carregarDadosMedimento();
-
-            } else if (id == R.id.nav_send) {
-
-
-                View wizardView = getLayoutInflater()
-                        .inflate(R.layout.activity_question, dynamicContent, false);
-
-                dynamicContent.addView(wizardView);
+//            } else if (id == R.id.nav_send) {
+//
+//
+//                View wizardView = getLayoutInflater()
+//                        .inflate(R.layout.activity_question, dynamicContent, false);
+//
+//                dynamicContent.addView(wizardView);
 
             } else if (id == R.id.nav_slideshow) {
                 finish();

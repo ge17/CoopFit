@@ -84,7 +84,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Salvar"
+                android:text="@string/salvar"
+                android:background="@color/colorTheme"
                 android:layout_marginTop="30dp"
                 android:onClick="salvarConfig"
                 />
