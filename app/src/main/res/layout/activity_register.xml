@@ -77,6 +77,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:id="@+id/txt_nasc"
+                android:inputType="date"
                 android:hint="Data Nascimento"
                 />
 

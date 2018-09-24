@@ -215,8 +215,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        //return email.contains("@");
-        return email.length() > 2;
+        return email.contains("@") && email.length() > 3;
+//        return email.length() > 2;
     }
 
     private boolean isPasswordValid(String password) {
@@ -434,18 +434,58 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void validarLogin(final String u, final String s){
+//
+//        Pessoa p = new Pessoa();
+//        p.setEmail(u);
+//        p.setSenha(s);
+//
+//        try {
+//
+//
+//            Retrofit retrofit = new Retrofit.Builder()
+//                    .baseUrl("https://coopfit.herokuapp.com/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build();
+//
+////        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
+////            retrofit = new Retrofit.Builder()
+////                    .baseUrl("http://192.168.0.106:8080/")
+////                    .addConverterFactory(GsonConverterFactory.create())
+////                    .build();
+////        }
+//
+//
+//            CoopFitService api = retrofit.create(CoopFitService.class);
+//
+//            api.logar(u,s).enqueue(new Callback<Pessoa>() {
+//
+//
+//                @Override
+//                public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
+//                    response.body();
+//                    Toast.makeText(LoginActivity.this, "Login ok", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Pessoa> call, Throwable t) {
+//                    Toast.makeText(LoginActivity.this, "Erro ao logar", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
+//
+//        }catch (Exception e){
+//            Toast.makeText(this, "Erro de servico" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+
+
 
 //        SharedPreferences sp = getPreferences(MODE_PRIVATE);
 //        String user = sp.getString(u, null);
 //        String pass = sp.getString(s, null);
 
-//        Pessoa p = new Pessoa();
-//        p.setEmail(u);
-//        p.setSenha(s);
         try {
             CoopFitDB db = new CoopFitDB(this);
-//        db.insertPessoa(p);
-            Pessoa p = db.findPessoa(u, s);
+            Pessoa p = db.validarLoginPessoa(u, s);
             db.close();
 
             if (p != null) {
@@ -453,8 +493,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Toast.makeText(this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(this, NavigationActivity.class);
-                i.putExtra("user", u);
-                i.putExtra("pass", s);
+                i.putExtra("email", u);
                 startActivity(i);
                 finish();
             } else {

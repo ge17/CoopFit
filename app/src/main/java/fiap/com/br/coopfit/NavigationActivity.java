@@ -59,12 +59,17 @@ public class NavigationActivity extends AppCompatActivity
     EditText etNasc;
     TextView tvUser;
 
+    String email;
     String nome;
     String senha;
 
+    //Variaveis ConfigActivity
     EditText txtEmail;
     EditText txtSenha;
     EditText txtNome;
+    EditText txtPeso;
+    EditText txtAltura;
+    EditText txtNasc;
 
 
     Spinner spDispositivos;
@@ -113,6 +118,8 @@ public class NavigationActivity extends AppCompatActivity
         dynamicContent.addView(wizardView);
 
         tvUser = findViewById(R.id.txt_user_name);
+        tvAltura = findViewById(R.id.txt_altura);
+        tvPeso = findViewById(R.id.txt_peso);
 
         Intent i = getIntent();
 
@@ -120,11 +127,13 @@ public class NavigationActivity extends AppCompatActivity
             Bundle bundle = i.getExtras();
             if(bundle != null){
 
-                nome = bundle.getString("user");
-                senha = bundle.getString("pass");
-                tvUser.setText(nome);
+                email = bundle.getString("email");
 
-
+                CoopFitDB db = new CoopFitDB(this);
+                Pessoa p1 = db.findPessoa(email);
+                tvUser.setText(p1.getNome());
+                tvAltura.setText(String.valueOf(p1.getAltura()));
+                tvPeso.setText(String.valueOf(p1.getPeso()));
 
             }
         }
@@ -195,6 +204,11 @@ public class NavigationActivity extends AppCompatActivity
 
                 // add the inflated View to the layout
                 dynamicContent.addView(wizardView);
+
+                CoopFitDB db = new CoopFitDB(this);
+                Pessoa p1 = db.findPessoa(email);
+                tvUser.setText(p1.getNome());
+
 //                carregarDadosHome();
                 carregarChart();
             } else if (id == R.id.nav_gallery) {
@@ -206,6 +220,12 @@ public class NavigationActivity extends AppCompatActivity
               txtEmail = findViewById(R.id.txt_email);
               txtSenha = findViewById(R.id.txt_senha);
               txtNome  = findViewById(R.id.txt_nome);
+              txtPeso  = findViewById(R.id.txt_peso);
+              txtAltura  = findViewById(R.id.txt_altura);
+              txtNasc  = findViewById(R.id.txt_nasc);
+
+              CoopFitDB db = new CoopFitDB(this);
+              db.findPessoa(email);
 
                 txtEmail.setText(nome);
                 txtSenha.setText(senha);
@@ -485,6 +505,9 @@ public class NavigationActivity extends AppCompatActivity
             p.setEmail(String.valueOf(txtEmail.getText()));
             p.setSenha(String.valueOf(txtSenha.getText()));
             p.setNome(String.valueOf(txtNome.getText()));
+            p.setPeso(Double.valueOf(txtNome.getText().toString()));
+            p.setAltura(Double.valueOf(txtNome.getText().toString()));
+//            p.setNascimento(Date.valueOf(txtNome.getText().toString()));
 
             CoopFitDB db = new CoopFitDB(this);
 

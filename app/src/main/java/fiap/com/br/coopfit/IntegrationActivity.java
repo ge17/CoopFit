@@ -8,7 +8,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import fiap.com.br.coopfit.service.CoopFitService;
-import fiap.com.br.coopfit.to.Contato;
 import fiap.com.br.coopfit.to.Pessoa;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,23 +51,5 @@ public class IntegrationActivity extends AppCompatActivity {
 
             });
 
-
-//        api.getContatos().enqueue(new Callback<List<Contato>>() {
-//            @Override
-//            public void onResponse(Call<List<Contato>> call, Response<List<Contato>> response) {
-//                Toast.makeText(IntegrationActivity.this, "Sucesso", Toast.LENGTH_SHORT).show();
-//
-//                List<Contato> contatos = response.body();
-//                for ( int i = 0; i < contatos.size(); i++) {
-//                    Log.i("CONTATO", contatos.get(i).getNome());
-//                    Toast.makeText(IntegrationActivity.this, "CONTATO" + contatos.get(i).getNome(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Contato>> call, Throwable t) {
-//                Toast.makeText(IntegrationActivity.this, "Erro", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 }

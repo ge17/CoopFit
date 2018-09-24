@@ -7,16 +7,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.dao.PessoaPreferences;
 import fiap.com.br.coopfit.to.Pessoa;
 
 public class ConfigActivity extends AppCompatActivity {
 
+    DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
 
     EditText txtEmail;
     EditText txtSenha;
     EditText txtNome;
+    EditText txtPeso;
+    EditText txtAltura;
+    EditText txtNasc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +34,9 @@ public class ConfigActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txt_email);
         txtSenha = findViewById(R.id.txt_senha);
         txtNome = findViewById(R.id.txt_nome);
+        txtPeso = findViewById(R.id.txt_peso);
+        txtAltura = findViewById(R.id.txt_altura);
+        txtNasc = findViewById(R.id.txt_nasc);
     }
 
     public void salvarConfig(View view) {
@@ -35,6 +46,11 @@ public class ConfigActivity extends AppCompatActivity {
             p.setEmail(String.valueOf(txtEmail.getText()));
             p.setSenha(String.valueOf(txtSenha.getText()));
             p.setNome(String.valueOf(txtNome.getText()));
+            p.setPeso(Double.valueOf(String.valueOf(txtPeso.getText())));
+            p.setAltura(Double.valueOf(String.valueOf(txtAltura.getText())));
+
+            Date data = dateFormat.parse(String.valueOf(txtNasc.getText()));
+            p.setNascimento(data);
 
             CoopFitDB db = new CoopFitDB(this);
 
