@@ -25,14 +25,14 @@
 
     <item android:title="Communicate">
         <menu>
-            <!--<item-->
-                <!--android:id="@+id/nav_share"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="Medimentos" />-->
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_menu_send"-->
-                <!--android:title="Questionário" />-->
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Dispositivos conectados" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Questionário" />
         </menu>
     </item>
 

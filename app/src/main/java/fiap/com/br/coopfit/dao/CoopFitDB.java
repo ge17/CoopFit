@@ -76,35 +76,40 @@ public class CoopFitDB extends SQLiteOpenHelper {
 
     public Pessoa findPessoa(String email) {
 
-        SQLiteDatabase db = getReadableDatabase();
+        Pessoa p = null;
+        try {
+            SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.query(
-                TB_PESSOA,
-                null,
-                "email = ?",
-                new String[]{email},
-                null,
-                null,
-                null
-        );
+            Cursor cursor = db.query(
+                    TB_PESSOA,
+                    null,
+                    "email = ?",
+                    new String[]{email},
+                    null,
+                    null,
+                    null
+            );
 
-        Pessoa p = new Pessoa();
-        if ( cursor.moveToNext() ) {
-            p.setId( cursor.getLong(0) );
-            p.setEmail( cursor.getString(1) );
-            p.setSenha( cursor.getString(2) );
-            p.setNome( cursor.getString(3) );
-            p.setPeso( cursor.getDouble(4) );
-            p.setAltura( cursor.getDouble(5) );
+            p = new Pessoa();
+            if (cursor.moveToNext()) {
+                p.setId(cursor.getLong(0));
+                p.setEmail(cursor.getString(1));
+                p.setSenha(cursor.getString(2));
+                p.setNome(cursor.getString(3));
+                p.setPeso(cursor.getDouble(4));
+                p.setAltura(cursor.getDouble(5));
 
-//            String dataNasc = dateFormat.format(cursor.getString(5));
-//            Date data = (dataNasc);
-//            p.setNascimento(data);
+                String dataNasc = cursor.getString(6);
+                Date data = !dataNasc.equals("") && dataNasc != null ? dateFormat.parse(dataNasc) : new Date();
+                p.setNascimento(data);
+
+            }
+
+            cursor.close();
+
+        }catch (Exception e){
 
         }
-
-        cursor.close();
-
 
         return p;
     }
