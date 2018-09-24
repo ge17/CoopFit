@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Quantos copos de água tomou hoje?"
+        android:text="@string/qtd_copos_agua"
         android:textColor="#000000"
         android:textStyle="bold"
         />
@@ -43,7 +43,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="De quais frutas se alimentou hoje?"
+        android:text="@string/quais_frutas"
         android:layout_marginTop="30dp"
         android:textColor="#000000"
         android:textStyle="bold"
@@ -62,7 +62,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Qual meio de locomoção utilizado hoje?"
+        android:text="@string/locomocao"
         android:layout_marginTop="30dp"
         android:textColor="#000000"
         android:textStyle="bold"
@@ -80,7 +80,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Como você está se sentido?"
+        android:text="@string/sentido"
         android:layout_marginTop="30dp"
         android:textColor="#000000"
         android:textStyle="bold"
@@ -99,9 +99,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
-        android:background="@color/colorPink"
+        android:background="@color/colorTheme"
         android:textStyle="bold"
-        android:text="Enviar"
+        android:text="@string/enviar"
         android:textSize="15dp" />
 
 

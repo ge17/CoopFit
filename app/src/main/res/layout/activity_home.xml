@@ -8,18 +8,22 @@
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     android:orientation="horizontal">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/bem_vindo"
-        android:layout_marginTop="5dp"
-        />
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="15dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txt_user_name"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="8dp"
+        android:textSize="15dp"
         app:srcCompat="@drawable/ic_extension_black_24dp"
         />
 </LinearLayout>
@@ -48,14 +52,14 @@
         android:orientation="horizontal"
         android:layout_marginTop="15dp"
         >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Altura: "
-            android:textColor="#1E90FF"
-            android:textStyle="bold"
             android:layout_marginLeft="15dp"
-            />
+            android:text="@string/altura"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,8 +69,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Peso: "
-            android:textColor="#1E90FF"
+            android:text="@string/peso"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:layout_marginLeft="170dp"/>
 
@@ -97,14 +101,14 @@
             />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            app:srcCompat="@drawable/ic_directions_walk_black_24dp"
-            android:layout_toRightOf="@id/fab_health"
-            android:id="@+id/fab_step"
             android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/fab_health"
+            android:clickable="true"
             android:onClick="abrirDialogoTempoOcioso"
+            app:srcCompat="@drawable/ic_directions_walk_black_24dp"
 
             />
 

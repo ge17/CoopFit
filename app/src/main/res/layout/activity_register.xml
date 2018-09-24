@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:id="@+id/txt_email"
-                android:hint="E-mail"
+                android:hint="@string/prompt_email"
                 android:singleLine="true"
                 />
 
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:id="@+id/txt_senha"
-                android:hint="Senha"
+                android:hint="@string/senha"
                 android:singleLine="true"
                 android:inputType="textPassword"
                 />
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:id="@+id/txt_peso"
-                android:hint="Peso"
+                android:hint="@string/peso"
                 android:singleLine="true"
                 />
 
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:id="@+id/txt_altura"
-                android:hint="Altura"
+                android:hint="@string/altura"
                 android:singleLine="true"
                 />
 
@@ -77,15 +77,16 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:id="@+id/txt_nasc"
+                android:hint="@string/data_nascimento"
                 android:inputType="date"
-                android:hint="Data Nascimento"
                 />
 
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Salvar"
+                android:text="@string/salvar"
+                android:background="@color/colorTheme"
                 android:layout_marginTop="30dp"
                 android:onClick="saveChanges"
                 />

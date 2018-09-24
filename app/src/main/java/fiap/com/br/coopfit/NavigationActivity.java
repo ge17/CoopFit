@@ -232,27 +232,28 @@ public class NavigationActivity extends AppCompatActivity
                 txtNome.setText(nome);
 
 //                carregarDadosConfig();
-            } else if (id == R.id.nav_manage) {
-                View wizardView = getLayoutInflater()
-                        .inflate(R.layout.activity_pass_recover, dynamicContent, false);
+//            } else if (id == R.id.nav_manage) {
+//                View wizardView = getLayoutInflater()
+//                        .inflate(R.layout.activity_pass_recover, dynamicContent, false);
+//
+//                dynamicContent.addView(wizardView);
+//            }
+//            }else if (id == R.id.nav_share) {
+//
+//                View wizardView = getLayoutInflater()
+//                        .inflate(R.layout.activity_measure, dynamicContent, false);
+//
+//                dynamicContent.addView(wizardView);
+//
+//                carregarDadosMedimento();
 
-                dynamicContent.addView(wizardView);
-            } else if (id == R.id.nav_share) {
-
-                View wizardView = getLayoutInflater()
-                        .inflate(R.layout.activity_measure, dynamicContent, false);
-
-                dynamicContent.addView(wizardView);
-
-                carregarDadosMedimento();
-
-            } else if (id == R.id.nav_send) {
-
-
-                View wizardView = getLayoutInflater()
-                        .inflate(R.layout.activity_question, dynamicContent, false);
-
-                dynamicContent.addView(wizardView);
+//            } else if (id == R.id.nav_send) {
+//
+//
+//                View wizardView = getLayoutInflater()
+//                        .inflate(R.layout.activity_question, dynamicContent, false);
+//
+//                dynamicContent.addView(wizardView);
 
             } else if (id == R.id.nav_slideshow) {
                 finish();

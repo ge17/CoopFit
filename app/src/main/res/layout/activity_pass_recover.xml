@@ -11,17 +11,17 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Digite seu e-mail"
+        android:hint="@string/digite_seu_email"
 
         />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enviar"
         android:layout_marginTop="10dp"
         android:onClick="recuperarEmail"
-        />
+        android:text="@string/enviar"
+        android:background="@color/colorTheme"/>
 
 
 </LinearLayout>
