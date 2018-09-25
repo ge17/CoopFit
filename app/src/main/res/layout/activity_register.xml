@@ -71,6 +71,15 @@
                 android:singleLine="true"
                 />
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/txt_nasc"
+                android:hint="@string/data_nascimento"
+                android:inputType="date"
+                />
+
             <Spinner
                 android:id="@+id/spinner_genero"
                 android:layout_width="match_parent"
