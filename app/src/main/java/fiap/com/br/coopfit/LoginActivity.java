@@ -38,7 +38,10 @@ import java.util.List;
 
 import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.service.CoopFitService;
+import fiap.com.br.coopfit.to.Credenciais;
 import fiap.com.br.coopfit.to.Pessoa;
+import okhttp3.Headers;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -434,48 +437,42 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void validarLogin(final String u, final String s){
-//
-//        Pessoa p = new Pessoa();
-//        p.setEmail(u);
-//        p.setSenha(s);
-//
-//        try {
-//
-//
-//            Retrofit retrofit = new Retrofit.Builder()
-//                    .baseUrl("https://coopfit.herokuapp.com/")
+        try {
+
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(CoopFitService.API_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+//        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
+//            retrofit = new Retrofit.Builder()
+//                    .baseUrl("http://192.168.0.106:8080/")
 //                    .addConverterFactory(GsonConverterFactory.create())
 //                    .build();
-//
-////        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
-////            retrofit = new Retrofit.Builder()
-////                    .baseUrl("http://192.168.0.106:8080/")
-////                    .addConverterFactory(GsonConverterFactory.create())
-////                    .build();
-////        }
-//
-//
-//            CoopFitService api = retrofit.create(CoopFitService.class);
-//
-//            api.logar(u,s).enqueue(new Callback<Pessoa>() {
-//
-//
-//                @Override
-//                public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
-//                    response.body();
-//                    Toast.makeText(LoginActivity.this, "Login ok", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Pessoa> call, Throwable t) {
-//                    Toast.makeText(LoginActivity.this, "Erro ao logar", Toast.LENGTH_SHORT).show();
-//
-//                }
-//            });
-//
-//        }catch (Exception e){
-//            Toast.makeText(this, "Erro de servico" + e.getMessage(), Toast.LENGTH_SHORT).show();
 //        }
+
+            Credenciais credenciais = new Credenciais();
+            credenciais.email = u;
+            credenciais.senha = s;
+
+            CoopFitService api = retrofit.create(CoopFitService.class);
+
+            api.logar(credenciais).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    String token = response.headers().get("Authorization");
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+        }catch (Exception e){
+            Toast.makeText(this, "Erro " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
 
 
@@ -483,26 +480,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        String user = sp.getString(u, null);
 //        String pass = sp.getString(s, null);
 
-        try {
-            CoopFitDB db = new CoopFitDB(this);
-            Pessoa p = db.validarLoginPessoa(u, s);
-            db.close();
-
-            if (p != null) {
-
-                Toast.makeText(this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
-
-                Intent i = new Intent(this, NavigationActivity.class);
-                i.putExtra("email", u);
-                startActivity(i);
-                finish();
-            } else {
-                Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
-            }
-
-        }catch (Exception e){
-            Log.d("ERRO", e.getMessage());
-        }
+//        try {
+//            CoopFitDB db = new CoopFitDB(this);
+//            Pessoa pValida = db.validarLoginPessoa(u, s);
+//            db.close();
+//
+//            if (pValida != null) {
+//
+//                Toast.makeText(this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
+//
+//                Intent i = new Intent(this, NavigationActivity.class);
+//                i.putExtra("email", u);
+//                startActivity(i);
+//                finish();
+//            } else {
+//                Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
+//            }
+//
+//        }catch (Exception e){
+//            Log.d("ERRO", e.getMessage());
+//        }
 
     }
 

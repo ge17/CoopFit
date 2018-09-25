@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                         Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl("https://coopfit.herokuapp.com/")
+                                .baseUrl(CoopFitService.API_BASE_URL)
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build();
 
@@ -104,17 +104,17 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
 
 
-                                Toast.makeText(RegisterActivity.this, "Servico ok", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Servico ok ", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onFailure(Call<Pessoa> call, Throwable t) {
-                                Toast.makeText(RegisterActivity.this, "Servico erro", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Erro " + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
                     } catch (Exception e) {
-                        Toast.makeText(this, "Erro de servico", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Erro de servico " + e.getMessage() , Toast.LENGTH_SHORT).show();
                     }
                 }
                 //Encerrar a Activity de login
@@ -122,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
         }catch (Exception e){
-            Toast.makeText(this, "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Erro ao cadastrar " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
