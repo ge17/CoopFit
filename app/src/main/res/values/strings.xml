@@ -44,6 +44,7 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="esqueci_a_senha">Esqueci a senha</string>
     <string name="digite_seu_email">Digite seu e-mail</string>
+    <string name="observacoes">Observações</string>
 
 
     <string-array name="array_meio_locomocao">
@@ -60,6 +61,13 @@
         <item>Triste</item>
         <item>Chateado(a)</item>
         <item>Cansado(a)</item>
+    </string-array>
+
+    <string-array name="array_genero">
+        <item>Selecione seu gênero</item>
+        <item>Feminino</item>
+        <item>Masculino</item>
+        <item>Outros</item>
     </string-array>
 
 </resources>
