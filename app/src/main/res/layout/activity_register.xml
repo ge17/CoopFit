@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:id="@+id/txt_nome"
-                android:hint="Nome"
+                android:hint="@string/nome"
                 android:singleLine="true"
                 />
 
@@ -71,17 +71,21 @@
                 android:singleLine="true"
                 />
 
-
+            <Spinner
+                android:id="@+id/spinner_genero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/array_genero"
+                android:layout_marginTop="10dp"
+                />
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:id="@+id/txt_nasc"
-                android:hint="@string/data_nascimento"
-                android:inputType="date"
+                android:id="@+id/txt_obs"
+                android:hint="@string/observacoes"
+                android:singleLine="true"
                 />
-
-
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

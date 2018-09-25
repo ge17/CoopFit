@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -32,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText txtPeso;
     EditText txtAltura;
     EditText txtNasc;
+    Spinner spinnerGenero;
+    EditText txtObs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class RegisterActivity extends AppCompatActivity {
         txtPeso  = findViewById(R.id.txt_peso);
         txtAltura  = findViewById(R.id.txt_altura);
         txtNasc  = findViewById(R.id.txt_nasc);
+        spinnerGenero = findViewById(R.id.spinner_genero);
+        txtObs = findViewById(R.id.txt_obs);
+
     }
 
     public void saveChanges(View view) {

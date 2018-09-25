@@ -38,6 +38,12 @@ public class CoopFitDB extends SQLiteOpenHelper {
         db.execSQL("create table if not exists T_DISPOSITIVO(id_dispositivo integer, id_pessoa integer, descricao text)");
         db.execSQL("create table if not exists T_DISPOSITIVO_SENSOR(id_dispositivo_sensor integer, id_sensor integer, valor real, tipo text, data text)");
         db.execSQL("create table if not exists T_QUESTIONARIO(id_questionario integer, id_pessoa integer, qt_copo_agua integer, tp_situacao text, data text, respondido text)");
+        db.execSQL("create table if not exists T_INFORME_TRATATIVAS(d_informativo integer, descricao text, data text)");
+        db.execSQL("create table if not exists T_NOTIFICACAO(id_notificacao, descricao text, data text)");
+        db.execSQL("create table if not exists T_ROTINA(id_rotina, descricao text, data text, tipo integer)");
+        db.execSQL("create table if not exists T_INFORMATIVO_SAUDE(id_informacao_saude, descricao text, data text)");
+
+
     }
 
     @Override
