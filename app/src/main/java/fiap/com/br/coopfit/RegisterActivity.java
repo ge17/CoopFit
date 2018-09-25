@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import fiap.com.br.coopfit.dao.CoopFitDB;
+import fiap.com.br.coopfit.enums.Genero;
+import fiap.com.br.coopfit.enums.TipoUsuario;
 import fiap.com.br.coopfit.service.CoopFitService;
 import fiap.com.br.coopfit.to.Pessoa;
 import retrofit2.Call;
@@ -62,6 +64,13 @@ public class RegisterActivity extends AppCompatActivity {
                 p.setNome(txtNome.getText().toString());
                 p.setPeso(!txtPeso.getText().toString().equals("") ? Double.valueOf(txtPeso.getText().toString()) : 0);
                 p.setAltura(!txtAltura.getText().toString().equals("") ? Double.valueOf(txtAltura.getText().toString()) : 0);
+                p.setAlteracao(new Date());
+                p.setCadastro(new Date());
+                p.setFoto(new byte[]{1});
+                p.setGenero(Genero.MASCULINO);
+                p.setId(new Long(1));
+                p.setObservacao("");
+                p.setTipo(TipoUsuario.ADMINISTRADOR);
 
                 Date data = !String.valueOf(txtNasc.getText()).equals("") ? dateFormat.parse(String.valueOf(txtNasc.getText()).replace("/", "-")) : new Date();
                 p.setNascimento(data);

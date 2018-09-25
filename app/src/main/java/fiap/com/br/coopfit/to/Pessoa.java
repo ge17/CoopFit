@@ -16,6 +16,8 @@ public class Pessoa implements Serializable {
 
     private Genero genero;
 
+    private byte[] foto;
+
     private String email;
 
     private String senha;
@@ -126,5 +128,14 @@ public class Pessoa implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
 }
