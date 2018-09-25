@@ -7,11 +7,24 @@ import android.os.Bundle;
 import android.view.View;
 
 import fiap.com.br.coopfit.dao.CoopFitDB;
+import fiap.com.br.coopfit.service.CoopFitService;
+import fiap.com.br.coopfit.to.DispositivoSensor;
 import fiap.com.br.coopfit.to.Pessoa;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeActivity extends AppCompatActivity {
 
     Pessoa p;
+    DispositivoSensor ds;
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(CoopFitService.API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
 
     @Override
@@ -20,16 +33,36 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
-
-
-
     }
 
 
     public void abrirDialogoBatimento(View view) {
 
-        CoopFitDB db = new CoopFitDB(view.getContext());
-        double valor = db.getBatimento();
+//        CoopFitDB db = new CoopFitDB(view.getContext());
+//        double valor = db.getBatimento();
+
+        try {
+            CoopFitService api = retrofit.create(CoopFitService.class);
+
+            api.getValorSensor(1).enqueue(new Callback<DispositivoSensor>() {
+                @Override
+                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
+                    ds = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+        double valor = 0;
+        if(ds != null){
+            valor = ds.getValor();
+        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
         alert.setTitle("Batimentos");
@@ -57,8 +90,31 @@ public class HomeActivity extends AppCompatActivity {
 
     public void abrirDialogoTempoOcioso(View view) {
 
-        CoopFitDB db = new CoopFitDB(view.getContext());
-        double valor = db.getTempoOcioso();
+//        CoopFitDB db = new CoopFitDB(view.getContext());
+//        double valor = db.getTempoOcioso();
+
+        try {
+            CoopFitService api = retrofit.create(CoopFitService.class);
+
+            api.getValorSensor(2).enqueue(new Callback<DispositivoSensor>() {
+                @Override
+                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
+                    ds = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+        double valor = 0;
+        if(ds != null){
+            valor = ds.getValor();
+        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
         alert.setTitle("Tempo ocioso");
@@ -76,8 +132,32 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void abrirDialogoTempoSono(View view) {
-        CoopFitDB db = new CoopFitDB(view.getContext());
-        double valor = db.getTempoSono();
+
+//        CoopFitDB db = new CoopFitDB(view.getContext());
+//        double valor = db.getTempoSono();
+
+        try {
+            CoopFitService api = retrofit.create(CoopFitService.class);
+
+            api.getValorSensor(3).enqueue(new Callback<DispositivoSensor>() {
+                @Override
+                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
+                    ds = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+        double valor = 0;
+        if(ds != null){
+            valor = ds.getValor();
+        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
         alert.setTitle("Tempo de sono");
@@ -95,8 +175,31 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void abrirDialogoAtividade(View view) {
-        CoopFitDB db = new CoopFitDB(view.getContext());
-        double valor = db.getTempoAtividade();
+//        CoopFitDB db = new CoopFitDB(view.getContext());
+//        double valor = db.getTempoAtividade();
+
+        try {
+            CoopFitService api = retrofit.create(CoopFitService.class);
+
+            api.getValorSensor(4).enqueue(new Callback<DispositivoSensor>() {
+                @Override
+                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
+                    ds = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+        double valor = 0;
+        if(ds != null){
+            valor = ds.getValor();
+        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
         alert.setTitle("Atividades");
@@ -114,8 +217,31 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void abrirDialogoLiquido(View view) {
-        CoopFitDB db = new CoopFitDB(view.getContext());
-        double valor = db.getLiquidoDiario();
+//        CoopFitDB db = new CoopFitDB(view.getContext());
+//        double valor = db.getLiquidoDiario();
+
+        try {
+            CoopFitService api = retrofit.create(CoopFitService.class);
+
+            api.getValorSensor(5).enqueue(new Callback<DispositivoSensor>() {
+                @Override
+                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
+                    ds = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+        double valor = 0;
+        if(ds != null){
+            valor = ds.getValor();
+        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
         alert.setTitle("Total de líquidio ingerido");
@@ -133,8 +259,31 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void abrirDialogoPuzzle(View view) {
-        CoopFitDB db = new CoopFitDB(view.getContext());
-        double valor = db.getQtdPassos();
+//        CoopFitDB db = new CoopFitDB(view.getContext());
+//        double valor = db.getQtdPassos();
+
+        try {
+            CoopFitService api = retrofit.create(CoopFitService.class);
+
+            api.getValorSensor(6).enqueue(new Callback<DispositivoSensor>() {
+                @Override
+                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
+                    ds = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+        double valor = 0;
+        if(ds != null){
+            valor = ds.getValor();
+        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
         alert.setTitle("Outros");

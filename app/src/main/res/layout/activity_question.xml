@@ -102,6 +102,7 @@
         android:background="@color/colorTheme"
         android:textStyle="bold"
         android:text="@string/enviar"
+        android:onClick="enviar"
         android:textSize="15dp" />
 
 

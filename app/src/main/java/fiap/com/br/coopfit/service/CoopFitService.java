@@ -4,6 +4,7 @@ package fiap.com.br.coopfit.service;
 import android.net.http.HttpResponseCache;
 
 import fiap.com.br.coopfit.to.Credenciais;
+import fiap.com.br.coopfit.to.DispositivoSensor;
 import fiap.com.br.coopfit.to.Pessoa;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -41,6 +42,9 @@ public interface CoopFitService {
 
         @POST("auth/refresh_token")
         Call<ResponseBody> getToken();
+
+        @GET("sensores/{id}")
+        Call<DispositivoSensor> getValorSensor(@Field("id") long id);
 
 
 //        Retrofit retrofit = new Retrofit.Builder()
