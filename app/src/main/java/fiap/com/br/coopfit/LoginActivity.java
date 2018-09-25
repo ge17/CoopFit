@@ -462,11 +462,65 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     String token = response.headers().get("Authorization");
+
+                    if(response.code() == 401){
+                        Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
+                    } else if(response.code() != 200 && response.code() != 201 && response.code() != 202){
+
+                        try {
+                            CoopFitDB db = new CoopFitDB(LoginActivity.this);
+                            Pessoa pValida = db.validarLoginPessoa(u, s);
+                            db.close();
+
+                            if (pValida != null) {
+
+                                Toast.makeText(LoginActivity.this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
+
+                                Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
+                                i.putExtra("email", u);
+                                startActivity(i);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }catch (Exception e){
+                            Log.d("ERRO", e.getMessage());
+                        }
+                    } else {
+                        Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
+                        i.putExtra("email", u);
+                        startActivity(i);
+                        finish();
+                    }
+
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    try {
+                        CoopFitDB db = new CoopFitDB(LoginActivity.this);
+                        Pessoa pValida = db.validarLoginPessoa(u, s);
+                        db.close();
+
+                        if (pValida != null) {
+
+                            Toast.makeText(LoginActivity.this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
+                            i.putExtra("email", u);
+                            startActivity(i);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }catch (Exception e){
+                        Log.d("ERRO", e.getMessage());
+                    }
+
                 }
             });
             
@@ -480,26 +534,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        String user = sp.getString(u, null);
 //        String pass = sp.getString(s, null);
 
-//        try {
-//            CoopFitDB db = new CoopFitDB(this);
-//            Pessoa pValida = db.validarLoginPessoa(u, s);
-//            db.close();
-//
-//            if (pValida != null) {
-//
-//                Toast.makeText(this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
-//
-//                Intent i = new Intent(this, NavigationActivity.class);
-//                i.putExtra("email", u);
-//                startActivity(i);
-//                finish();
-//            } else {
-//                Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
-//            }
-//
-//        }catch (Exception e){
-//            Log.d("ERRO", e.getMessage());
-//        }
+
 
     }
 
