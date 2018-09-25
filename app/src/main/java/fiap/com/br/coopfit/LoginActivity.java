@@ -463,9 +463,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     String token = response.headers().get("Authorization");
 
-                    if(response.code() == 401){
-                        Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
-                    } else if(response.code() != 200 && response.code() != 201 && response.code() != 202){
+//                    if(response.code() == 401){
+//                        Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
+//                    } else
+
+                    if(response.code() == 401 || response.code() != 200 && response.code() != 201 && response.code() != 202){
 
                         try {
                             CoopFitDB db = new CoopFitDB(LoginActivity.this);
