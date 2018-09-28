@@ -28,11 +28,15 @@ public class Pessoa implements Serializable {
 
     private Date alteracao;
 
+    private boolean notificacao;
+
     private double altura;
 
     private double peso;
 
     private String observacao;
+
+
 
     public Long getId() {
         return id;
@@ -137,5 +141,13 @@ public class Pessoa implements Serializable {
 
     public void setFoto(byte[] foto) {
         this.foto = foto;
+    }
+
+    public boolean isNotificacao() {
+        return notificacao;
+    }
+
+    public void setNotificacao(boolean notificacao) {
+        this.notificacao = notificacao;
     }
 }

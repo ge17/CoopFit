@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.service.CoopFitService;
@@ -52,11 +53,12 @@ public class HomeActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+                    Toast.makeText(HomeActivity.this, "Erro", Toast.LENGTH_SHORT).show();
 
                 }
             });
         }catch (Exception e){
-
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         double valor = 0;
@@ -88,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void abrirDialogoTempoOcioso(View view) {
+    public void abrirDialogoTempoOcioso(final View view) {
 
 //        CoopFitDB db = new CoopFitDB(view.getContext());
 //        double valor = db.getTempoOcioso();
@@ -100,6 +102,25 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
                     ds = response.body();
+
+                    double valor = 0;
+                    if(ds != null){
+                        valor = ds.getValor();
+                    }
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                    alert.setTitle("Tempo ocioso");
+                    alert.setMessage("" + valor);
+                    alert.setCancelable(true);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
                 }
 
                 @Override
@@ -111,24 +132,7 @@ public class HomeActivity extends AppCompatActivity {
 
         }
 
-        double valor = 0;
-        if(ds != null){
-            valor = ds.getValor();
-        }
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-        alert.setTitle("Tempo ocioso");
-        alert.setMessage("" + valor);
-        alert.setCancelable(true);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        AlertDialog alertDialog = alert.create();
-        alertDialog.show();
     }
 
     public void abrirDialogoTempoSono(View view) {

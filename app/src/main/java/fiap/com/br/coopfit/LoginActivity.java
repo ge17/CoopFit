@@ -467,8 +467,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //                        Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
 //                    } else
 
-                    if(response.code() == 401 || response.code() != 200 && response.code() != 201 && response.code() != 202){
-
+                    //if(response.code() == 401 || response.code() != 200 && response.code() != 201 && response.code() != 202){
+                    if(1==1){
                         try {
                             CoopFitDB db = new CoopFitDB(LoginActivity.this);
                             Pessoa pValida = db.validarLoginPessoa(u, s);

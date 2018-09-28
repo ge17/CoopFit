@@ -256,7 +256,6 @@ public class NavigationActivity extends AppCompatActivity
 
             } else if (id == R.id.nav_send) {
 
-
                 View wizardView = getLayoutInflater()
                         .inflate(R.layout.activity_question, dynamicContent, false);
 

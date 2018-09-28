@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,21 +68,25 @@ public class RegisterActivity extends AppCompatActivity {
                 Pessoa p = new Pessoa();
 
 
-                p.setEmail(txtEmail.getText().toString());
-                p.setSenha(txtSenha.getText().toString());
                 p.setNome(txtNome.getText().toString());
-                p.setPeso(!txtPeso.getText().toString().equals("") ? Double.valueOf(txtPeso.getText().toString()) : 0);
-                p.setAltura(!txtAltura.getText().toString().equals("") ? Double.valueOf(txtAltura.getText().toString()) : 0);
-                p.setAlteracao(new Date());
-                p.setCadastro(new Date());
-                p.setFoto(new byte[]{1});
-                p.setGenero(Genero.MASCULINO);
-                p.setId(new Long(1));
-                p.setObservacao("");
-                p.setTipo(TipoUsuario.PACIENTE);
 
                 Date data = !String.valueOf(txtNasc.getText()).equals("") ? dateFormat.parse(String.valueOf(txtNasc.getText()).replace("/", "-")) : new Date();
                 p.setNascimento(data);
+
+                p.setGenero(Genero.MASCULINO);
+                //p.setFoto(new byte[]{1});
+                p.setEmail(txtEmail.getText().toString());
+                p.setSenha(txtSenha.getText().toString());
+
+                p.setCadastro(new Date());
+                p.setAlteracao(new Date());
+                p.setNotificacao(false);
+
+                p.setPeso(!txtPeso.getText().toString().equals("") ? Double.valueOf(txtPeso.getText().toString()) : 0);
+                p.setAltura(!txtAltura.getText().toString().equals("") ? Double.valueOf(txtAltura.getText().toString()) : 0);
+
+                p.setObservacao("");
+                p.setTipo(TipoUsuario.PACIENTE);
 
                 CoopFitDB db = new CoopFitDB(this);
 
@@ -89,18 +96,21 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(this, "O e-mail " + p.getEmail() + " já consta cadastrado", Toast.LENGTH_SHORT).show();
                     db.close();
                 } else {
-
                     db.insertPessoa(p);
                     db.close();
                     Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
 
                     try {
 
+                        Gson gson = new GsonBuilder()
+                                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                                .create();
 
                         Retrofit retrofit = new Retrofit.Builder()
                                 .baseUrl(CoopFitService.API_BASE_URL)
-                                .addConverterFactory(GsonConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create(gson))
                                 .build();
+
 
 //        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
 //            retrofit = new Retrofit.Builder()
@@ -112,19 +122,16 @@ public class RegisterActivity extends AppCompatActivity {
 
                         CoopFitService api = retrofit.create(CoopFitService.class);
 
-                        api.setPessoa(p).enqueue(new Callback<Pessoa>() {
-
-
+                        api.setPessoa(p).enqueue(new Callback<Void>() {
                             @Override
-                            public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
-
-
-                                Toast.makeText(RegisterActivity.this, "Servico ok ", Toast.LENGTH_SHORT).show();
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                String id = response.headers().get("https://coopfit.herokuapp.com/pessoas/{id}");
+                                Toast.makeText(RegisterActivity.this, "Usuário " + id + " cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
-                            public void onFailure(Call<Pessoa> call, Throwable t) {
-                                Toast.makeText(RegisterActivity.this, "Erro " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(RegisterActivity.this, "Erro ao realizar o cadastro.", Toast.LENGTH_SHORT).show();
                             }
                         });
 
