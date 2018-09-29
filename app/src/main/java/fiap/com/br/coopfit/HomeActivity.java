@@ -32,8 +32,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
     }
 
 
@@ -45,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
 
-            api.getValorSensor(1).enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(1,"Sono").enqueue(new Callback<DispositivoSensor>() {
                 @Override
                 public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
                     ds = response.body();
@@ -53,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<DispositivoSensor> call, Throwable t) {
-                    Toast.makeText(HomeActivity.this, "Erro", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -98,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
 
-            api.getValorSensor(2).enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(2,"Sono").enqueue(new Callback<DispositivoSensor>() {
                 @Override
                 public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
                     ds = response.body();
@@ -143,7 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
 
-            api.getValorSensor(3).enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(3, "Sono").enqueue(new Callback<DispositivoSensor>() {
                 @Override
                 public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
                     ds = response.body();
@@ -185,7 +182,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
 
-            api.getValorSensor(4).enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(4, "Sono").enqueue(new Callback<DispositivoSensor>() {
                 @Override
                 public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
                     ds = response.body();
@@ -227,7 +224,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
 
-            api.getValorSensor(5).enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(5, "Sono").enqueue(new Callback<DispositivoSensor>() {
                 @Override
                 public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
                     ds = response.body();
@@ -269,7 +266,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
 
-            api.getValorSensor(6).enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(6, "Sono").enqueue(new Callback<DispositivoSensor>() {
                 @Override
                 public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
                     ds = response.body();

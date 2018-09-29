@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,15 +54,9 @@ public class NavigationActivity extends AppCompatActivity
     TextView tvAltura;
     TextView tvPeso;
 
-    EditText etNome;
-    EditText etPeso;
-    EditText etAltura;
-    EditText etNasc;
     TextView tvUser;
 
-    String email;
-    String nome;
-    String senha;
+
 
     //Variaveis ConfigActivity
     EditText txtEmail;
@@ -78,8 +73,13 @@ public class NavigationActivity extends AppCompatActivity
     BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
     BluetoothSocket soquete = null;
     OutputStream saida = null;
+
     Set<BluetoothDevice> dispositivosPareados;
 
+    String token;
+    String email;
+    String nome;
+    String senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,15 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /*
+        * INICIO CONTEUDO
+        *
+        * */
+        SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
 
+        SharedPreferences spToken = getSharedPreferences("auth", MODE_PRIVATE);
+        token = spToken.getString("token", null);
 
         dynamicContent = (LinearLayout) findViewById(R.id.conteudo);
 
@@ -131,24 +139,18 @@ public class NavigationActivity extends AppCompatActivity
 
                 CoopFitDB db = new CoopFitDB(this);
                 Pessoa p1 = db.findPessoa(email);
+
+                e.putString("nome", p1.getNome());
+                e.putString("altura", String.valueOf(p1.getAltura()));
+                e.putString("peso", String.valueOf(p1.getPeso()));
+                e.commit();
+
                 tvUser.setText(p1.getNome());
                 tvAltura.setText(String.valueOf(p1.getAltura()));
                 tvPeso.setText(String.valueOf(p1.getPeso()));
 
             }
         }
-
-//        carregarDadosHome();
-
-//
-//        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-//
-//        PessoaPreferences dao = null;
-//        String nome = dao.getPessoaPreference("user");
-//
-//        tvUser = findViewById(R.id.txt_user_name);
-//        tvUser.setText(nome);
-
 
 
     }
@@ -194,8 +196,6 @@ public class NavigationActivity extends AppCompatActivity
         if (dynamicContent != null) {
             dynamicContent.removeAllViews();
         }
-
-
             if (id == R.id.nav_camera) {
                 // Handle the camera action
                 // assuming your Wizard content is in content_wizard.xml
@@ -205,11 +205,16 @@ public class NavigationActivity extends AppCompatActivity
                 // add the inflated View to the layout
                 dynamicContent.addView(wizardView);
 
-                CoopFitDB db = new CoopFitDB(this);
-                Pessoa p1 = db.findPessoa(email);
-                tvUser.setText(p1.getNome());
+                tvUser = findViewById(R.id.txt_user_name);
+                tvAltura = findViewById(R.id.txt_altura);
+                tvPeso = findViewById(R.id.txt_peso);
 
-//                carregarDadosHome();
+                SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+
+                tvUser.setText(sp.getString("nome", null));
+                tvAltura.setText(sp.getString("altura", null));
+                tvPeso.setText(sp.getString("peso", null));
+
                 carregarChart();
             } else if (id == R.id.nav_gallery) {
                 View wizardView = getLayoutInflater()
@@ -238,13 +243,6 @@ public class NavigationActivity extends AppCompatActivity
 
               }
 
-//                carregarDadosConfig();
-//            } else if (id == R.id.nav_manage) {
-//                View wizardView = getLayoutInflater()
-//                        .inflate(R.layout.activity_pass_recover, dynamicContent, false);
-//
-//                dynamicContent.addView(wizardView);
-//            }
             }else if (id == R.id.nav_share) {
 
                 View wizardView = getLayoutInflater()
@@ -435,19 +433,15 @@ public class NavigationActivity extends AppCompatActivity
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 int REQUEST_ENABLE_BT = 1;
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }//if
+            }
             dispositivosPareados = bluetooth.getBondedDevices();
             if ( dispositivosPareados.size() > 0 ) {
                 for (BluetoothDevice item : dispositivosPareados) {
                     adapter.add(item.getName());
                 }
             }
-        }//if
+        }
         spDispositivos.setAdapter(adapter);
-
-
-
-
 
     }
 
@@ -523,12 +517,6 @@ public class NavigationActivity extends AppCompatActivity
 
 
             Toast.makeText(this, "Dados atualizados com sucesso!", Toast.LENGTH_SHORT).show();
-
-//        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-//
-//        PessoaPreferences dao = new PessoaPreferences(preferences);
-//        dao.salvarPessoaPreference(p.getNome(),p.getNome());
-//        dao.salvarPessoaPreference(p.getSenha(),p.getSenha());
 
         }catch (Exception e){
             Toast.makeText(this, "Erro ao atualizar", Toast.LENGTH_SHORT).show();

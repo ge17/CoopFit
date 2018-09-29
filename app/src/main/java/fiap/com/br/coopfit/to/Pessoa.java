@@ -1,10 +1,9 @@
 package fiap.com.br.coopfit.to;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
-
-import fiap.com.br.coopfit.enums.Genero;
-import fiap.com.br.coopfit.enums.TipoUsuario;
 
 public class Pessoa implements Serializable {
 
@@ -12,9 +11,9 @@ public class Pessoa implements Serializable {
 
     private String nome;
 
-    private Date nascimento;
+    private String nascimento;
 
-    private Genero genero;
+    private Integer genero;
 
     private byte[] foto;
 
@@ -22,7 +21,7 @@ public class Pessoa implements Serializable {
 
     private String senha;
 
-    private TipoUsuario tipo;
+    private Integer perfis;
 
     private Date cadastro;
 
@@ -35,7 +34,6 @@ public class Pessoa implements Serializable {
     private double peso;
 
     private String observacao;
-
 
 
     public Long getId() {
@@ -54,20 +52,28 @@ public class Pessoa implements Serializable {
         this.nome = nome;
     }
 
-    public Date getNascimento() {
+    public String getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(Date nascimento) {
+    public void setNascimento(String nascimento) {
         this.nascimento = nascimento;
     }
 
-    public Genero getGenero() {
+    public Integer getGenero() {
         return genero;
     }
 
-    public void setGenero(Genero genero) {
+    public void setGenero(Integer genero) {
         this.genero = genero;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
 
     public String getEmail() {
@@ -86,12 +92,12 @@ public class Pessoa implements Serializable {
         this.senha = senha;
     }
 
-    public TipoUsuario getTipo() {
-        return tipo;
+    public Integer getPerfis() {
+        return perfis;
     }
 
-    public void setTipo(TipoUsuario tipo) {
-        this.tipo = tipo;
+    public void setPerfis(Integer perfis) {
+        this.perfis = perfis;
     }
 
     public Date getCadastro() {
@@ -108,6 +114,14 @@ public class Pessoa implements Serializable {
 
     public void setAlteracao(Date alteracao) {
         this.alteracao = alteracao;
+    }
+
+    public boolean isNotificacao() {
+        return notificacao;
+    }
+
+    public void setNotificacao(boolean notificacao) {
+        this.notificacao = notificacao;
     }
 
     public double getAltura() {
@@ -132,22 +146,5 @@ public class Pessoa implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
-    }
-
-
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
-
-    public boolean isNotificacao() {
-        return notificacao;
-    }
-
-    public void setNotificacao(boolean notificacao) {
-        this.notificacao = notificacao;
     }
 }

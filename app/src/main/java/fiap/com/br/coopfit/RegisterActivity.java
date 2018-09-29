@@ -1,9 +1,10 @@
 package fiap.com.br.coopfit;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -11,13 +12,15 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.SimpleTimeZone;
 
 import fiap.com.br.coopfit.dao.CoopFitDB;
-import fiap.com.br.coopfit.enums.Genero;
-import fiap.com.br.coopfit.enums.TipoUsuario;
 import fiap.com.br.coopfit.service.CoopFitService;
 import fiap.com.br.coopfit.to.Pessoa;
 import retrofit2.Call;
@@ -28,7 +31,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
+
+
+    java.text.DateFormat dateFormatFrom = new java.text.SimpleDateFormat("DD/MM/YYYY");
+    java.text.DateFormat dateFormat = new java.text.SimpleDateFormat("YYYY-MM-DD");
 
     EditText txtEmail;
     EditText txtSenha;
@@ -55,7 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     public void saveChanges(View view) {
+
+
 
         try {
 
@@ -66,27 +75,37 @@ public class RegisterActivity extends AppCompatActivity {
             } else {
 
                 Pessoa p = new Pessoa();
-
-
                 p.setNome(txtNome.getText().toString());
 
-                Date data = !String.valueOf(txtNasc.getText()).equals("") ? dateFormat.parse(String.valueOf(txtNasc.getText()).replace("/", "-")) : new Date();
-                p.setNascimento(data);
 
-                p.setGenero(Genero.MASCULINO);
+//                Date dataOrigem = !String.valueOf(txtNasc.getText()).equals("") ? new Date(dateFormatFrom.format(txtNasc.getText().toString())) : new Date();
+//                Date data = !String.valueOf(txtNasc.getText()).equals("") ? dateFormat.parse(String.valueOf(txtNasc.getText()).replace("/", "-")) : new Date();
+//                Date data = dateFormat.parse(String.valueOf(dataOrigem));
+
+
+                p.setNascimento(txtNasc.getText().toString());
+
+                //DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                String Data = fmt.format(Calendar.getInstance().getTime());
+                p.setCadastro(fmt.parse(Data));
+
+                p.setGenero(spinnerGenero.getSelectedItem().toString().equals("MASCULINO") ? 0 : 1);
                 //p.setFoto(new byte[]{1});
                 p.setEmail(txtEmail.getText().toString());
                 p.setSenha(txtSenha.getText().toString());
 
-                p.setCadastro(new Date());
-                p.setAlteracao(new Date());
-                p.setNotificacao(false);
+//                String dataCadastroOrigem = dateFormatFrom.format(new Date());
+//                String dataCadastro = dateFormat.format(new Date(dataCadastroOrigem));
+
+                p.setNotificacao(true);
 
                 p.setPeso(!txtPeso.getText().toString().equals("") ? Double.valueOf(txtPeso.getText().toString()) : 0);
                 p.setAltura(!txtAltura.getText().toString().equals("") ? Double.valueOf(txtAltura.getText().toString()) : 0);
 
-                p.setObservacao("");
-                p.setTipo(TipoUsuario.PACIENTE);
+                p.setObservacao(String.valueOf(txtObs.getText()));
+                p.setPerfis(1);
 
                 CoopFitDB db = new CoopFitDB(this);
 
@@ -102,8 +121,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                     try {
 
+
                         Gson gson = new GsonBuilder()
-                                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                                .setDateFormat("yyyy-MM-dd")
                                 .create();
 
                         Retrofit retrofit = new Retrofit.Builder()
@@ -112,21 +132,25 @@ public class RegisterActivity extends AppCompatActivity {
                                 .build();
 
 
-//        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
-//            retrofit = new Retrofit.Builder()
-//                    .baseUrl("http://192.168.0.106:8080/")
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build();
-//        }
+//                        Date data = !String.valueOf(txtNasc.getText()).equals("") ? dateFormat.parse(String.valueOf(txtNasc.getText()).replace("/", "-")) : new Date();
 
+//                        p.setCadastro(data);
+
+                        Gson gson2 = new Gson();
+                        String x = gson2.toJson(p);
 
                         CoopFitService api = retrofit.create(CoopFitService.class);
-
                         api.setPessoa(p).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                String id = response.headers().get("https://coopfit.herokuapp.com/pessoas/{id}");
-                                Toast.makeText(RegisterActivity.this, "Usuário " + id + " cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                                if(response.code() == 201) {
+
+                                    String id = response.headers().get("https://coopfit.herokuapp.com/pessoas/{id}");
+
+                                    Toast.makeText(RegisterActivity.this, "Usuário " + id + " cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                                }
                             }
 
                             @Override
@@ -139,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(this, "Erro de servico " + e.getMessage() , Toast.LENGTH_SHORT).show();
                     }
                 }
-                //Encerrar a Activity de login
+                //Encerrar a Activity de cadastro
                 finish();
             }
 

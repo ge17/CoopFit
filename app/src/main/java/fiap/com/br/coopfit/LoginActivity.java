@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -54,6 +55,11 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(CoopFitService.API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -382,75 +388,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-    //George
-//    public void validarLogin(final String u, final String s){
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://10.0.2.2:8080/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-////        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
-////            retrofit = new Retrofit.Builder()
-////                    .baseUrl("http://192.168.0.106:8080/")
-////                    .addConverterFactory(GsonConverterFactory.create())
-////                    .build();
-////        }
-//
-//
-//        CoopFitService api = retrofit.create(CoopFitService.class);
-//
-//        api.getPessoa(1).enqueue(new Callback<Pessoa>() {
-//            @Override
-//            public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
-//                Pessoa p = response.body();
-//                user = p.getNome();
-//                pwd = p.getSenha();
-//
-//                if(u.equals(user) && s.equals(pwd)){
-//                    Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
-//                    startActivity(i);
-//                    finish();
-//                }else if(u.equals("user") && s.equals("123")){
-//                    Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
-//                    startActivity(i);
-//                    finish();
-//                }else{
-//                    Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Pessoa> call, Throwable t) {
-//                if(u.equals("user") && s.equals("123")) {
-//                    Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
-//                    startActivity(i);
-//                    finish();
-//                }else
-//                Toast.makeText(LoginActivity.this, "Erro" + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//
-//        });
-//
-//    }
-
-
     public void validarLogin(final String u, final String s){
         try {
-
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(CoopFitService.API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-//        if(!retrofit.baseUrl().equals("http://10.0.2.2:8080/")){
-//            retrofit = new Retrofit.Builder()
-//                    .baseUrl("http://192.168.0.106:8080/")
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build();
-//        }
 
             Credenciais credenciais = new Credenciais();
             credenciais.email = u;
@@ -463,12 +402,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     String token = response.headers().get("Authorization");
 
-//                    if(response.code() == 401){
-//                        Toast.makeText(LoginActivity.this, "Login ou senha inválido", Toast.LENGTH_SHORT).show();
-//                    } else
+                    if(response.code() == 200) {
+                        SharedPreferences sp = getSharedPreferences("auth", MODE_PRIVATE);
+                        SharedPreferences.Editor e = sp.edit();
+                        e.putString("token", token);
+                        e.commit();
 
-                    //if(response.code() == 401 || response.code() != 200 && response.code() != 201 && response.code() != 202){
-                    if(1==1){
+                        Toast.makeText(LoginActivity.this, "Efetuado login ONLINE com sucesso", Toast.LENGTH_SHORT).show();
+
+                        Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
+                        i.putExtra("email", u);
+                        startActivity(i);
+                        finish();
+
+                    } else if (response.code() == 401 || response.code() != 200 && response.code() != 202){
+
                         try {
                             CoopFitDB db = new CoopFitDB(LoginActivity.this);
                             Pessoa pValida = db.validarLoginPessoa(u, s);
@@ -476,7 +424,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                             if (pValida != null) {
 
-                                Toast.makeText(LoginActivity.this, "Vamos lá " + u, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Efetuado login OFFLINE com sucesso", Toast.LENGTH_SHORT).show();
 
                                 Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
                                 i.putExtra("email", u);
@@ -487,13 +435,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             }
 
                         }catch (Exception e){
-                            Log.d("ERRO", e.getMessage());
+                            Toast.makeText(LoginActivity.this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
-                        i.putExtra("email", u);
-                        startActivity(i);
-                        finish();
+                        Toast.makeText(LoginActivity.this, "Ocorreu um erro inesperado.", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -520,24 +465,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
 
                     }catch (Exception e){
-                        Log.d("ERRO", e.getMessage());
+                        Log.d("ERRO: ", e.getMessage());
                     }
 
                 }
             });
             
         }catch (Exception e){
-            Toast.makeText(this, "Erro " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
-
-
-//        SharedPreferences sp = getPreferences(MODE_PRIVATE);
-//        String user = sp.getString(u, null);
-//        String pass = sp.getString(s, null);
-
-
-
     }
 
 

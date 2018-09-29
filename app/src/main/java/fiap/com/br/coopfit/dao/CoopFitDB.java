@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import fiap.com.br.coopfit.to.Pessoa;
@@ -18,7 +21,7 @@ import fiap.com.br.coopfit.to.Pessoa;
 
 public class CoopFitDB extends SQLiteOpenHelper {
 
-    DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
+    DateFormat dateFormat = new SimpleDateFormat("DD/MM/YYYY");
 
     public static final String DATABASE_NAME = "CoopFitDB";
     public static final int VERSION = 1;
@@ -106,8 +109,9 @@ public class CoopFitDB extends SQLiteOpenHelper {
                 p.setAltura(cursor.getDouble(5));
 
                 String dataNasc = cursor.getString(6);
-                Date data = !dataNasc.equals("") && dataNasc != null ? dateFormat.parse(dataNasc) : new Date();
-                p.setNascimento(data);
+//                Date data = !dataNasc.equals("") && dataNasc != null ? dateFormat.parse(dataNasc) : new Date();
+
+                p.setNascimento(dataNasc);
 
             }
 
