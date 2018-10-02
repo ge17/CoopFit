@@ -1,7 +1,5 @@
 package fiap.com.br.coopfit;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,16 +11,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.SimpleTimeZone;
+import java.util.Iterator;
 
 import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.service.CoopFitService;
 import fiap.com.br.coopfit.to.Pessoa;
+import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,8 +28,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-    java.text.DateFormat dateFormatFrom = new java.text.SimpleDateFormat("DD/MM/YYYY");
-    java.text.DateFormat dateFormat = new java.text.SimpleDateFormat("YYYY-MM-DD");
+    java.text.SimpleDateFormat fmtOrigem = new java.text.SimpleDateFormat("dd/MM/yyyy");
+    java.text.SimpleDateFormat fmtSaida = new java.text.SimpleDateFormat("yyyy-MM-dd");
 
     EditText txtEmail;
     EditText txtSenha;
@@ -61,10 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     public void saveChanges(View view) {
-
-
 
         try {
 
@@ -78,26 +70,16 @@ public class RegisterActivity extends AppCompatActivity {
                 p.setNome(txtNome.getText().toString());
 
 
-//                Date dataOrigem = !String.valueOf(txtNasc.getText()).equals("") ? new Date(dateFormatFrom.format(txtNasc.getText().toString())) : new Date();
-//                Date data = !String.valueOf(txtNasc.getText()).equals("") ? dateFormat.parse(String.valueOf(txtNasc.getText()).replace("/", "-")) : new Date();
-//                Date data = dateFormat.parse(String.valueOf(dataOrigem));
+                String dataNasc = txtNasc.getText().toString();
 
-
-                p.setNascimento(txtNasc.getText().toString());
-
-                //DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-
-                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-                String Data = fmt.format(Calendar.getInstance().getTime());
-                p.setCadastro(fmt.parse(Data));
+                p.setNascimento(new Date(dataNasc));
+                p.setCadastro(new Date());
 
                 p.setGenero(spinnerGenero.getSelectedItem().toString().equals("MASCULINO") ? 0 : 1);
                 //p.setFoto(new byte[]{1});
                 p.setEmail(txtEmail.getText().toString());
                 p.setSenha(txtSenha.getText().toString());
 
-//                String dataCadastroOrigem = dateFormatFrom.format(new Date());
-//                String dataCadastro = dateFormat.format(new Date(dataCadastroOrigem));
 
                 p.setNotificacao(true);
 
@@ -132,21 +114,17 @@ public class RegisterActivity extends AppCompatActivity {
                                 .build();
 
 
-//                        Date data = !String.valueOf(txtNasc.getText()).equals("") ? dateFormat.parse(String.valueOf(txtNasc.getText()).replace("/", "-")) : new Date();
-
-//                        p.setCadastro(data);
-
-                        Gson gson2 = new Gson();
-                        String x = gson2.toJson(p);
-
                         CoopFitService api = retrofit.create(CoopFitService.class);
+
                         api.setPessoa(p).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
 
                                 if(response.code() == 201) {
+                                    String id = "";
+                                    Headers headers = response.headers();
 
-                                    String id = response.headers().get("https://coopfit.herokuapp.com/pessoas/{id}");
+                                    id = headers.value(0).replace("http://54.89.196.181:8080/pessoas/", "");
 
                                     Toast.makeText(RegisterActivity.this, "Usuário " + id + " cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
 

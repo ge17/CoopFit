@@ -111,7 +111,7 @@ public class CoopFitDB extends SQLiteOpenHelper {
                 String dataNasc = cursor.getString(6);
 //                Date data = !dataNasc.equals("") && dataNasc != null ? dateFormat.parse(dataNasc) : new Date();
 
-                p.setNascimento(dataNasc);
+//                p.setNascimento(dataNasc);
 
             }
 

@@ -61,7 +61,7 @@ public class ConfigActivity extends AppCompatActivity {
 //                Date data = dateFormat.parse(String.valueOf(dataOrigem));
 
 
-            p.setNascimento(txtNasc.getText().toString());
+//            p.setNascimento(txtNasc.getText().toString());
 
             //DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 

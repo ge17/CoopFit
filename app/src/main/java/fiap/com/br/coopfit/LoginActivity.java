@@ -41,8 +41,6 @@ import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.service.CoopFitService;
 import fiap.com.br.coopfit.to.Credenciais;
 import fiap.com.br.coopfit.to.Pessoa;
-import okhttp3.Headers;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
