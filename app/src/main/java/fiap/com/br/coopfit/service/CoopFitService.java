@@ -9,6 +9,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -38,6 +39,6 @@ public interface CoopFitService {
         Call<Void> setQuiz(@Body Questionario questionario);
 
         @GET("sensores/maximo")
-        Call<DispositivoSensor> getValorSensor(@Query("id") long id, @Query("tipo") String tipo);
+        Call<Double> getValorSensor(@Query("id") long id, @Query("tipo") String tipo, @Header("Authorization") String token);
 
 }

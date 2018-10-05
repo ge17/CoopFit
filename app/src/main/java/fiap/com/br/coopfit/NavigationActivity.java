@@ -271,34 +271,34 @@ public class NavigationActivity extends AppCompatActivity
 
     public void abrirDialogoBatimento(View view) {
         HomeActivity h = new HomeActivity();
-        h.abrirDialogoBatimento(view);
+        h.abrirDialogoBatimentoHome(view);
     }
 
     public void abrirDialogoTempoOcioso(View view) {
         HomeActivity h = new HomeActivity();
-        h.abrirDialogoTempoOcioso(view);
+        h.abrirDialogoTempoOciosoHome(view);
     }
 
     public void abrirDialogoTempoSono(View view) {
         HomeActivity h = new HomeActivity();
-        h.abrirDialogoTempoSono(view);
+        h.abrirDialogoTempoSonoHome(view);
 
     }
 
     public void abrirDialogoAtividade(View view) {
         HomeActivity h = new HomeActivity();
-        h.abrirDialogoAtividade(view);
+        h.abrirDialogoAtividadeHome(view);
 
     }
 
     public void abrirDialogoLiquido(View view) {
         HomeActivity h = new HomeActivity();
-        h.abrirDialogoLiquido(view);
+        h.abrirDialogoLiquidoHome(view);
     }
 
     public void abrirDialogoPuzzle(View view) {
         HomeActivity h = new HomeActivity();
-        h.abrirDialogoPuzzle(view);
+        h.abrirDialogoPuzzleHome(view);
     }
 
     public void carregarDadosHome(){

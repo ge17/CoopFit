@@ -59,6 +59,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
+    SharedPreferences sp;
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -401,7 +403,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     String token = response.headers().get("Authorization");
 
                     if(response.code() == 200) {
-                        SharedPreferences sp = getSharedPreferences("auth", MODE_PRIVATE);
+                        sp = getSharedPreferences("auth", MODE_PRIVATE);
                         SharedPreferences.Editor e = sp.edit();
                         e.putString("token", token);
                         e.commit();

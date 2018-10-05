@@ -2,10 +2,13 @@ package fiap.com.br.coopfit;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.internal.t;
 
 import fiap.com.br.coopfit.dao.CoopFitDB;
 import fiap.com.br.coopfit.service.CoopFitService;
@@ -20,12 +23,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeActivity extends AppCompatActivity {
 
     Pessoa p;
-    DispositivoSensor ds;
+    double valor = 0;
+    String token;
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(CoopFitService.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
 
 
     @Override
@@ -35,78 +40,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    public void abrirDialogoBatimento(View view) {
+    public void abrirDialogoBatimentoHome(final View view) {
 
 //        CoopFitDB db = new CoopFitDB(view.getContext());
 //        double valor = db.getBatimento();
 
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
+            SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
+            token = sp.getString("token",null);
 
-            api.getValorSensor(1,"Sono").enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(1,"Sono", token).enqueue(new Callback<Double>() {
                 @Override
-                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
-                    ds = response.body();
-                }
-
-                @Override
-                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
-
-                }
-            });
-        }catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-        double valor = 0;
-        if(ds != null){
-            valor = ds.getValor();
-        }
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-        alert.setTitle("Batimentos");
-        alert.setMessage("" + valor);
-        alert.setCancelable(true);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-//        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(HomeActivity.this, "kkkkkkk", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-        AlertDialog alertDialog = alert.create();
-        alertDialog.show();
-
-    }
-
-    public void abrirDialogoTempoOcioso(final View view) {
-
-//        CoopFitDB db = new CoopFitDB(view.getContext());
-//        double valor = db.getTempoOcioso();
-
-        try {
-            CoopFitService api = retrofit.create(CoopFitService.class);
-
-            api.getValorSensor(2,"Sono").enqueue(new Callback<DispositivoSensor>() {
-                @Override
-                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
-                    ds = response.body();
-
-                    double valor = 0;
-                    if(ds != null){
-                        valor = ds.getValor();
-                    }
+                public void onResponse(Call<Double> call, Response<Double> response) {
+                    if(response.body() != null)
+                    valor = response.body();
 
                     AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-                    alert.setTitle("Tempo ocioso");
+                    alert.setTitle("Batimentos");
                     alert.setMessage("" + valor);
                     alert.setCancelable(true);
 
@@ -116,191 +67,233 @@ public class HomeActivity extends AppCompatActivity {
 
                         }
                     });
+
+        //        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        //            @Override
+        //            public void onClick(DialogInterface dialog, int which) {
+        //                Toast.makeText(HomeActivity.this, "kkkkkkk", Toast.LENGTH_SHORT).show();
+        //            }
+        //        });
+
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+
+                }
+
+                @Override
+                public void onFailure(Call<Double> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void abrirDialogoTempoOciosoHome(final View view) {
+
+        try {
+            CoopFitService api = retrofit.create(CoopFitService.class);
+            SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
+            token = sp.getString("token",null);
+
+            api.getValorSensor(2,"Sono", token).enqueue(new Callback<Double>() {
+                @Override
+                public void onResponse(Call<Double> call, Response<Double> response) {
+
+                    if(response.body() != null)
+                    valor = response.body();
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                    alert.setTitle("Tempo Ocioso");
+                    alert.setMessage("" + valor);
+                    alert.setCancelable(true);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
                     AlertDialog alertDialog = alert.create();
                     alertDialog.show();
                 }
 
                 @Override
-                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+                public void onFailure(Call<Double> call, Throwable t) {
 
                 }
             });
         }catch (Exception e){
-
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
-    public void abrirDialogoTempoSono(View view) {
-
-//        CoopFitDB db = new CoopFitDB(view.getContext());
-//        double valor = db.getTempoSono();
+    public void abrirDialogoTempoSonoHome(final View view) {
 
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
+            SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
+            token = sp.getString("token",null);
 
-            api.getValorSensor(3, "Sono").enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(3,"Sono", token).enqueue(new Callback<Double>() {
                 @Override
-                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
-                    ds = response.body();
+                public void onResponse(Call<Double> call, Response<Double> response) {
+                    if(response.body() != null)
+                    valor = response.body();
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                    alert.setTitle("Tempo de Sono");
+                    alert.setMessage("" + valor);
+                    alert.setCancelable(true);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+
                 }
 
                 @Override
-                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+                public void onFailure(Call<Double> call, Throwable t) {
 
                 }
             });
         }catch (Exception e){
-
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        double valor = 0;
-        if(ds != null){
-            valor = ds.getValor();
-        }
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-        alert.setTitle("Tempo de sono");
-        alert.setMessage("" + valor);
-        alert.setCancelable(true);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        AlertDialog alertDialog = alert.create();
-        alertDialog.show();
     }
 
-    public void abrirDialogoAtividade(View view) {
-//        CoopFitDB db = new CoopFitDB(view.getContext());
-//        double valor = db.getTempoAtividade();
+    public void abrirDialogoAtividadeHome(final View view) {
 
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
+            SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
+            token = sp.getString("token",null);
 
-            api.getValorSensor(4, "Sono").enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(4,"Sono", token).enqueue(new Callback<Double>() {
                 @Override
-                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
-                    ds = response.body();
+                public void onResponse(Call<Double> call, Response<Double> response) {
+                    if(response.body() != null)
+                    valor = response.body();
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                    alert.setTitle("Passos");
+                    alert.setMessage("" + valor);
+                    alert.setCancelable(true);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
                 }
 
                 @Override
-                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+                public void onFailure(Call<Double> call, Throwable t) {
 
                 }
             });
         }catch (Exception e){
-
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        double valor = 0;
-        if(ds != null){
-            valor = ds.getValor();
-        }
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-        alert.setTitle("Atividades");
-        alert.setMessage("" + valor);
-        alert.setCancelable(true);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        AlertDialog alertDialog = alert.create();
-        alertDialog.show();
     }
 
-    public void abrirDialogoLiquido(View view) {
-//        CoopFitDB db = new CoopFitDB(view.getContext());
-//        double valor = db.getLiquidoDiario();
+    public void abrirDialogoLiquidoHome(final View view) {
 
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
+            SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
+            token = sp.getString("token",null);
 
-            api.getValorSensor(5, "Sono").enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(5,"Sono", token).enqueue(new Callback<Double>() {
                 @Override
-                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
-                    ds = response.body();
+                public void onResponse(Call<Double> call, Response<Double> response) {
+                    if(response.body() != null)
+                    valor = response.body();
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                    alert.setTitle("Quantidade de Líquido");
+                    alert.setMessage("" + valor);
+                    alert.setCancelable(true);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+
                 }
 
                 @Override
-                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+                public void onFailure(Call<Double> call, Throwable t) {
 
                 }
             });
         }catch (Exception e){
-
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        double valor = 0;
-        if(ds != null){
-            valor = ds.getValor();
-        }
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-        alert.setTitle("Total de líquidio ingerido");
-        alert.setMessage("" + valor);
-        alert.setCancelable(true);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        AlertDialog alertDialog = alert.create();
-        alertDialog.show();
     }
 
-    public void abrirDialogoPuzzle(View view) {
-//        CoopFitDB db = new CoopFitDB(view.getContext());
-//        double valor = db.getQtdPassos();
+    public void abrirDialogoPuzzleHome(final View view) {
 
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
+            SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
+            token = sp.getString("token",null);
 
-            api.getValorSensor(6, "Sono").enqueue(new Callback<DispositivoSensor>() {
+            api.getValorSensor(6,"Sono", token).enqueue(new Callback<Double>() {
                 @Override
-                public void onResponse(Call<DispositivoSensor> call, Response<DispositivoSensor> response) {
-                    ds = response.body();
+                public void onResponse(Call<Double> call, Response<Double> response) {
+                    if(response.body() != null)
+                    valor = response.body();
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                    alert.setTitle("Outros");
+                    alert.setMessage("" + valor);
+                    alert.setCancelable(true);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+
                 }
 
                 @Override
-                public void onFailure(Call<DispositivoSensor> call, Throwable t) {
+                public void onFailure(Call<Double> call, Throwable t) {
 
                 }
             });
         }catch (Exception e){
-
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        double valor = 0;
-        if(ds != null){
-            valor = ds.getValor();
-        }
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-        alert.setTitle("Outros");
-        alert.setMessage("" + valor);
-        alert.setCancelable(true);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        AlertDialog alertDialog = alert.create();
-        alertDialog.show();
     }
-
 
 
 }
