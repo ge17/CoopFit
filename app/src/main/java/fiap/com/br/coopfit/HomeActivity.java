@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     Pessoa p;
     double valor = 0;
     String token;
+    long idPessoa;
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(CoopFitService.API_BASE_URL)
@@ -47,10 +48,14 @@ public class HomeActivity extends AppCompatActivity {
 
         try {
             CoopFitService api = retrofit.create(CoopFitService.class);
-            SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
-            token = sp.getString("token",null);
+            SharedPreferences spToken = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
+            token = spToken.getString("token",null);
 
-            api.getValorSensor(1,"Sono", token).enqueue(new Callback<Double>() {
+            SharedPreferences sp = view.getContext().getSharedPreferences("user", MODE_PRIVATE);
+
+            idPessoa = Long.valueOf(sp.getString("idPessoa","-1"));
+
+            api.getValorSensor(idPessoa,"Batimento", token).enqueue(new Callback<Double>() {
                 @Override
                 public void onResponse(Call<Double> call, Response<Double> response) {
                     if(response.body() != null)
@@ -98,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
             SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
             token = sp.getString("token",null);
 
-            api.getValorSensor(2,"Sono", token).enqueue(new Callback<Double>() {
+            api.getValorSensor(idPessoa,"Ocioso", token).enqueue(new Callback<Double>() {
                 @Override
                 public void onResponse(Call<Double> call, Response<Double> response) {
 
@@ -138,7 +143,7 @@ public class HomeActivity extends AppCompatActivity {
             SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
             token = sp.getString("token",null);
 
-            api.getValorSensor(3,"Sono", token).enqueue(new Callback<Double>() {
+            api.getValorSensor(idPessoa,"Sono", token).enqueue(new Callback<Double>() {
                 @Override
                 public void onResponse(Call<Double> call, Response<Double> response) {
                     if(response.body() != null)
@@ -180,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
             SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
             token = sp.getString("token",null);
 
-            api.getValorSensor(4,"Sono", token).enqueue(new Callback<Double>() {
+            api.getValorSensor(idPessoa,"Atividade", token).enqueue(new Callback<Double>() {
                 @Override
                 public void onResponse(Call<Double> call, Response<Double> response) {
                     if(response.body() != null)
@@ -220,7 +225,7 @@ public class HomeActivity extends AppCompatActivity {
             SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
             token = sp.getString("token",null);
 
-            api.getValorSensor(5,"Sono", token).enqueue(new Callback<Double>() {
+            api.getValorSensor(idPessoa,"Liquido", token).enqueue(new Callback<Double>() {
                 @Override
                 public void onResponse(Call<Double> call, Response<Double> response) {
                     if(response.body() != null)
@@ -261,7 +266,7 @@ public class HomeActivity extends AppCompatActivity {
             SharedPreferences sp = view.getContext().getSharedPreferences("auth", MODE_PRIVATE);
             token = sp.getString("token",null);
 
-            api.getValorSensor(6,"Sono", token).enqueue(new Callback<Double>() {
+            api.getValorSensor(idPessoa,"Outro", token).enqueue(new Callback<Double>() {
                 @Override
                 public void onResponse(Call<Double> call, Response<Double> response) {
                     if(response.body() != null)

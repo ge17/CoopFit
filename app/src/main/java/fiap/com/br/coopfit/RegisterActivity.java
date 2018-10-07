@@ -39,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText txtNasc;
     Spinner spinnerGenero;
     EditText txtObs;
+    Pessoa p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Informe uma senha válida acima de 4 caracteres.", Toast.LENGTH_SHORT).show();
             } else {
 
-                Pessoa p = new Pessoa();
+                p = new Pessoa();
                 p.setNome(txtNome.getText().toString());
 
 
@@ -121,12 +122,19 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onResponse(Call<Void> call, Response<Void> response) {
 
                                 if(response.code() == 201) {
-                                    String id = "";
+                                    String strId = "";
                                     Headers headers = response.headers();
 
-                                    id = headers.value(0).replace("http://54.89.196.181:8080/pessoas/", "");
+                                    strId = headers.value(0).replace("http://54.89.196.181:8080/pessoas/", "");
 
-                                    Toast.makeText(RegisterActivity.this, "Usuário " + id + " cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+                                    Pessoa pessoa = new Pessoa();
+                                    pessoa.setId(!strId.equals("") ? Long.valueOf(strId) : -1);
+                                    pessoa.setEmail(p.getEmail());
+
+                                    CoopFitDB db2 = new CoopFitDB(RegisterActivity.this);
+                                    db2.setIdPessoa(pessoa);
+
+                                    Toast.makeText(RegisterActivity.this, "Usuário " + strId + " cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
 
                                 }
                             }

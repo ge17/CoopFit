@@ -1,8 +1,11 @@
 package fiap.com.br.coopfit.service;
 
 
+import java.util.List;
+
 import fiap.com.br.coopfit.to.Credenciais;
 import fiap.com.br.coopfit.to.DispositivoSensor;
+import fiap.com.br.coopfit.to.EmailDTO;
 import fiap.com.br.coopfit.to.Pessoa;
 import fiap.com.br.coopfit.to.Questionario;
 import okhttp3.ResponseBody;
@@ -23,6 +26,9 @@ public interface CoopFitService {
         @GET("pessoas/{id}")
         Call<Pessoa> getPessoa(@Path("id") int id);
 
+        @GET("pessoas")
+        Call<List<Pessoa>> listPessoas(@Header("Authorization") String token);
+
         @POST("pessoas")
         Call<Void> setPessoa(@Body Pessoa pessoa);
 
@@ -30,13 +36,13 @@ public interface CoopFitService {
         Call<Void> logar(@Body Credenciais credenciais);
 
         @POST("auth/forgot")
-        Call<Pessoa> recuperarSenha(@Body String email);
+        Call<Void> recuperarSenha(@Body EmailDTO email);
 
         @GET("sensores/{id}")
         Call<DispositivoSensor> getDispositivoSensor(@Path("id") long id);
 
         @POST("questionarios")
-        Call<Void> setQuiz(@Body Questionario questionario);
+        Call<Void> setQuiz(@Body Questionario questionario, @Header("Authorization") String token);
 
         @GET("sensores/maximo")
         Call<Double> getValorSensor(@Query("id") long id, @Query("tipo") String tipo, @Header("Authorization") String token);

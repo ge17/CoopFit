@@ -24,32 +24,5 @@ public class IntegrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integration);
 
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("https://douglascabral.com.br/aula-api/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        CoopFitService api = retrofit.create(CoopFitService.class);
-
-
-        api.getPessoa(1).enqueue(new Callback<Pessoa>() {
-                @Override
-                public void onResponse(Call<Pessoa> call, Response<Pessoa> response) {
-                    Pessoa contatos = response.body();
-                    Toast.makeText(IntegrationActivity.this, "CONTATO" + contatos.getNome(), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<Pessoa> call, Throwable t) {
-                    Toast.makeText(IntegrationActivity.this, "Erro" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-            });
-
     }
 }

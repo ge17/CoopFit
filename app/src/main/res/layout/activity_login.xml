@@ -71,7 +71,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lembrar"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/colorTheme" />
+                    android:textColor="@color/colorTheme"
+                    android:id="@+id/chkLembrar"
+                    />
 
 
             <Button

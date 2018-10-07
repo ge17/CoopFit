@@ -30,6 +30,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,6 +90,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private Pessoa pessoa;
     private SQLiteDatabase database;
 
+    CheckBox chkRemember;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +125,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         //George
-//        carregarDados();
+        chkRemember = findViewById(R.id.chkLembrar);
+
+        SharedPreferences spRemember = getSharedPreferences("rememberUser", MODE_PRIVATE);
+        String email = spRemember.getString("email",null);
+        String pass = spRemember.getString("pass",null);
+
+        if(email != null){
+            mEmailView.setText(email);
+            chkRemember.setChecked(true);
+
+            if(pass != null)
+            mPasswordView.setText(pass);
+        }else{
+            chkRemember.setChecked(false);
+        }
 
     }
 
@@ -395,6 +412,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             credenciais.email = u;
             credenciais.senha = s;
 
+            SharedPreferences spRemember = getSharedPreferences("rememberUser", MODE_PRIVATE);
+            SharedPreferences.Editor editor = spRemember.edit();
+            if(chkRemember.isChecked()) {
+                editor.putString("email", u);
+                editor.putString("pass", s);
+            }else{
+                editor.clear();
+            }
+            editor.commit();
+
             CoopFitService api = retrofit.create(CoopFitService.class);
 
             api.logar(credenciais).enqueue(new Callback<Void>() {
@@ -410,8 +437,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                         Toast.makeText(LoginActivity.this, "Efetuado login ONLINE com sucesso", Toast.LENGTH_SHORT).show();
 
-                        Intent i = new Intent(LoginActivity.this, NavigationActivity.class);
-                        i.putExtra("email", u);
+                        SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("email", u);
+                        editor.commit();
+
+                        CoopFitDB db = new CoopFitDB(LoginActivity.this);
+                        Pessoa pessoa = db.findPessoa(u);
+
+                        boolean questionarioRespondido = db.getQuiz(pessoa.getId());
+
+                        Intent i;
+                        if(questionarioRespondido) {
+                            i = new Intent(LoginActivity.this, NavigationActivity.class);
+                            i.putExtra("email", u);
+                        }else{
+                            i = new Intent(LoginActivity.this, QuizActivity.class);
+                            i.putExtra("email", u);
+                        }
+
                         startActivity(i);
                         finish();
 

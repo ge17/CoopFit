@@ -2,13 +2,15 @@ package fiap.com.br.coopfit.to;
 
 import java.util.Date;
 
+import fiap.com.br.coopfit.enums.TipoSentimento;
+
 public class Questionario {
 
     private Long id;
 
     private Integer qtdCopoAgua;
 
-    private String tipoSentimento;
+    private TipoSentimento tipoSentimento;
 
     private Integer estresse;
     private Date data;
@@ -31,11 +33,11 @@ public class Questionario {
         this.qtdCopoAgua = qtdCopoAgua;
     }
 
-    public String getTipoSentimento() {
+    public TipoSentimento getTipoSentimento() {
         return tipoSentimento;
     }
 
-    public void setTipoSentimento(String tipoSentimento) {
+    public void setTipoSentimento(TipoSentimento tipoSentimento) {
         this.tipoSentimento = tipoSentimento;
     }
 

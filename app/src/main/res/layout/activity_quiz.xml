@@ -37,6 +37,7 @@
         android:inputType="number"
         android:maxLines="1"
         android:singleLine="true"
+        android:id="@+id/txtQtdCopoAgua"
         />
 
 
@@ -56,6 +57,7 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:singleLine="true"
+        android:id="@+id/txtQtdFruta"
         />
 
 
@@ -73,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:entries="@array/array_meio_locomocao"
+        android:id="@+id/txtMeioLocomocao"
         />
 
 
@@ -91,6 +94,7 @@
         android:layout_height="wrap_content"
         android:entries="@array/array_situacao"
         android:layout_marginTop="10dp"
+        android:id="@+id/txtSentimento"
         />
 
     <Button
@@ -101,8 +105,8 @@
         android:layout_marginTop="45dp"
         android:background="@color/colorTheme"
         android:textStyle="bold"
-        android:text="@string/enviar"
-        android:onClick="enviar"
+        android:text="@string/salvar"
+        android:onClick="saveQuiz"
         android:textSize="15dp" />
 
 
