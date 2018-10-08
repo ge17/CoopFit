@@ -34,6 +34,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,7 @@ public class NavigationActivity extends AppCompatActivity
 
     TextView tvUser;
 
-
+    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
     //Variaveis ConfigActivity
     EditText txtEmail;
@@ -69,6 +70,8 @@ public class NavigationActivity extends AppCompatActivity
     EditText txtPeso;
     EditText txtAltura;
     EditText txtNasc;
+//    Spinner spinnerGenero;
+//    EditText txtObs;
 
 
     Spinner spDispositivos;
@@ -85,7 +88,7 @@ public class NavigationActivity extends AppCompatActivity
     String nome;
     String senha;
     long idPessoa;
-
+    Pessoa p;
 
 
     @Override
@@ -230,23 +233,29 @@ public class NavigationActivity extends AppCompatActivity
 
                 dynamicContent.addView(wizardView);
 
-              txtEmail = findViewById(R.id.txt_email);
-              txtSenha = findViewById(R.id.txt_senha);
-              txtNome  = findViewById(R.id.txt_nome);
-              txtPeso  = findViewById(R.id.txt_peso);
-              txtAltura  = findViewById(R.id.txt_altura);
-              txtNasc  = findViewById(R.id.txt_nasc);
+                txtEmail = findViewById(R.id.txt_email);
+                txtSenha = findViewById(R.id.txt_senha);
+                txtNome  = findViewById(R.id.txt_nome);
+                txtPeso  = findViewById(R.id.txt_peso);
+                txtAltura  = findViewById(R.id.txt_altura);
+                txtNasc  = findViewById(R.id.txt_nasc);
+//                spinnerGenero = findViewById(R.id.spinner_genero);
+//                txtObs = findViewById(R.id.txt_obs);
 
               try {
                   CoopFitDB db = new CoopFitDB(this);
-                  Pessoa p = db.findPessoa(email);
+                  p = db.findPessoa(email);
 
                   txtEmail.setText(p.getEmail());
                   txtSenha.setText(p.getSenha());
                   txtNome.setText(p.getNome());
                   txtPeso.setText(String.valueOf(p.getPeso()));
                   txtAltura.setText(String.valueOf(p.getAltura()));
-                  txtNasc.setText(String.valueOf(p.getNascimento()));
+
+                  txtNasc.setText(fmt.format(p.getNascimento()));
+
+//                  txtObs.setText(p.getObservacao());
+
               }catch (Exception e){
 
               }
@@ -394,21 +403,57 @@ public class NavigationActivity extends AppCompatActivity
     public void salvarConfig(View view) {
 
         try {
-            Pessoa p = new Pessoa();
-            p.setEmail(String.valueOf(txtEmail.getText()));
-            p.setSenha(String.valueOf(txtSenha.getText()));
-            p.setNome(String.valueOf(txtNome.getText()));
-            p.setPeso(Double.valueOf(txtNome.getText().toString()));
-            p.setAltura(Double.valueOf(txtNome.getText().toString()));
-//            p.setNascimento(Date.valueOf(txtNome.getText().toString()));
+            p.setNome(txtNome.getText().toString());
+
+            String dataNasc = txtNasc.getText().toString();
+
+            p.setNascimento(new Date(dataNasc));
+//            p.setCadastro(new Date());
+
+//            p.setGenero(spinnerGenero.getSelectedItem().toString().equals("MASCULINO") ? 0 : 1);
+            //p.setFoto(new byte[]{1});
+            p.setEmail(txtEmail.getText().toString());
+            p.setSenha(txtSenha.getText().toString());
+
+            p.setNotificacao(true);
+
+            p.setPeso(!txtPeso.getText().toString().equals("") ? Double.valueOf(txtPeso.getText().toString()) : 0);
+            p.setAltura(!txtAltura.getText().toString().equals("") ? Double.valueOf(txtAltura.getText().toString()) : 0);
+
+//            p.setObservacao(String.valueOf(txtObs.getText()));
+            p.setPerfis(1);
 
             CoopFitDB db = new CoopFitDB(this);
 
             db.updatePessoa(p);
             db.close();
 
+            try {
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd")
+                        .create();
 
-            Toast.makeText(this, "Dados atualizados com sucesso!", Toast.LENGTH_SHORT).show();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(CoopFitService.API_BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                CoopFitService api = retrofit.create(CoopFitService.class);
+
+                api.updatePessoa(p.getId(), p).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(NavigationActivity.this, "Dados atualizados com sucesso!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(NavigationActivity.this, "Erro ao conectar no servidor!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }catch (Exception e){
+                Toast.makeText(NavigationActivity.this, "Erro ao atualizar os dados!", Toast.LENGTH_SHORT).show();
+            }
 
         }catch (Exception e){
             Toast.makeText(this, "Erro ao atualizar", Toast.LENGTH_SHORT).show();

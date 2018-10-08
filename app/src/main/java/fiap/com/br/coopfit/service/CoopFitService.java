@@ -32,6 +32,9 @@ public interface CoopFitService {
         @POST("pessoas")
         Call<Void> setPessoa(@Body Pessoa pessoa);
 
+        @POST("pessoas/{id}")
+        Call<Void> updatePessoa(@Path("id") long id, @Body Pessoa pessoa);
+
         @POST("login")
         Call<Void> logar(@Body Credenciais credenciais);
 

@@ -97,8 +97,6 @@ public class CoopFitDB extends SQLiteOpenHelper {
             public void onFailure(Call<List<Pessoa>> call, Throwable t) {
             }
         });
-
-
     }
 
 
@@ -113,7 +111,7 @@ public class CoopFitDB extends SQLiteOpenHelper {
         cv.put("peso", pessoa.getPeso());
         cv.put("altura", pessoa.getAltura());
 
-        cv.put("data", dateFormat.format(pessoa.getNascimento()));
+        cv.put("data", pessoa.getNascimento() != null ? dateFormat.format(pessoa.getNascimento()) : null);
 
         db.insert(TB_PESSOA, null, cv);
         db.close();
@@ -128,7 +126,7 @@ public class CoopFitDB extends SQLiteOpenHelper {
         cv.put("nome", pessoa.getNome());
         cv.put("peso", pessoa.getPeso());
         cv.put("altura", pessoa.getAltura());
-        cv.put("data", String.valueOf(pessoa.getNascimento()));
+        cv.put("data", pessoa.getNascimento() != null ? dateFormat.format(pessoa.getNascimento()) : null);
 
         db.update(TB_PESSOA, cv, "email = ?", new String[]{pessoa.getEmail()});
         db.close();
@@ -172,16 +170,16 @@ public class CoopFitDB extends SQLiteOpenHelper {
                 p.setAltura(cursor.getDouble(5));
 
                 String dataNasc = cursor.getString(6);
-                Date data = !dataNasc.equals("") && dataNasc != null ? dateFormat.parse(dataNasc) : new Date();
+                Date data = !dataNasc.equals("") && dataNasc != null ? dateFormat.parse(dataNasc) : null;
 
                 p.setNascimento(data);
-
             }
 
             cursor.close();
             db.close();
 
         }catch (Exception e){
+            e.printStackTrace();
         }
 
         return p;
