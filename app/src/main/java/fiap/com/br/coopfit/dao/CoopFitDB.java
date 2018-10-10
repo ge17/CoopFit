@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import fiap.com.br.coopfit.service.CoopFitService;
+import fiap.com.br.coopfit.to.DispositivoSensor;
 import fiap.com.br.coopfit.to.Pessoa;
 import fiap.com.br.coopfit.to.Questionario;
 import retrofit2.Call;
@@ -68,35 +69,74 @@ public class CoopFitDB extends SQLiteOpenHelper {
 
     public void syncData(String token){
 
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd")
-                .create();
+        try {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(CoopFitService.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd")
+                    .create();
 
-        CoopFitService api = retrofit.create(CoopFitService.class);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(CoopFitService.API_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
 
-        api.listPessoas(token).enqueue(new Callback<List<Pessoa>>() {
-            @Override
-            public void onResponse(Call<List<Pessoa>> call, Response<List<Pessoa>> response) {
-                List<Pessoa> pessoas = response.body();
+            CoopFitService api = retrofit.create(CoopFitService.class);
 
-                for(Pessoa pessoa : pessoas){
-                    Pessoa p = findPessoa(pessoa.getEmail());
-                    if(p.getEmail() != null){
-                        updatePessoa(pessoa);
-                    }else {
-                        insertPessoa(pessoa);
+            api.listPessoas(token).enqueue(new Callback<List<Pessoa>>() {
+                @Override
+                public void onResponse(Call<List<Pessoa>> call, Response<List<Pessoa>> response) {
+                    List<Pessoa> pessoas = response.body();
+
+                    for (Pessoa pessoa : pessoas) {
+                        Pessoa p = findPessoa(pessoa.getEmail());
+                        if (p.getEmail() != null) {
+                            updatePessoa(pessoa);
+                        } else {
+                            insertPessoa(pessoa);
+                        }
                     }
                 }
-            }
-            @Override
-            public void onFailure(Call<List<Pessoa>> call, Throwable t) {
-            }
-        });
+
+                @Override
+                public void onFailure(Call<List<Pessoa>> call, Throwable t) {
+                }
+            });
+
+//            api.listSensores().enqueue(new Callback<List<DispositivoSensor>>() {
+//                @Override
+//                public void onResponse(Call<List<DispositivoSensor>> call, Response<List<DispositivoSensor>> response) {
+//                    List<DispositivoSensor> sensores = response.body();
+//
+//                    for (DispositivoSensor sensor : sensores) {
+//                            insertDispositivoSensor(sensor);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<DispositivoSensor>> call, Throwable t) {
+//
+//                }
+//            });
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public void insertDispositivoSensor(DispositivoSensor dispositivoSensor) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put("id_dispositivo_sensor", dispositivoSensor.getDispositivo().getId());
+        cv.put("id_sensor", dispositivoSensor.getId());
+        cv.put("valor", dispositivoSensor.getValor());
+        cv.put("tipo", String.valueOf(dispositivoSensor.getTipo()));
+
+
+        db.insert(T_DISPOSITIVO_SENSOR, null, cv);
+        db.close();
     }
 
 

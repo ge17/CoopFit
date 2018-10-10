@@ -3,6 +3,7 @@ package fiap.com.br.coopfit.service;
 
 import java.util.List;
 
+import fiap.com.br.coopfit.enums.TipoSensor;
 import fiap.com.br.coopfit.to.Credenciais;
 import fiap.com.br.coopfit.to.DispositivoSensor;
 import fiap.com.br.coopfit.to.EmailDTO;
@@ -41,6 +42,9 @@ public interface CoopFitService {
         @POST("auth/forgot")
         Call<Void> recuperarSenha(@Body EmailDTO email);
 
+        @GET("sensores")
+        Call<List<DispositivoSensor>> listSensores();
+
         @GET("sensores/{id}")
         Call<DispositivoSensor> getDispositivoSensor(@Path("id") long id);
 
@@ -48,6 +52,6 @@ public interface CoopFitService {
         Call<Void> setQuiz(@Body Questionario questionario, @Header("Authorization") String token);
 
         @GET("sensores/maximo")
-        Call<Double> getValorSensor(@Query("id") long id, @Query("tipo") String tipo, @Header("Authorization") String token);
+        Call<Double> getValorSensor(@Query("id") long id, @Query("tipo") TipoSensor tipo, @Header("Authorization") String token);
 
 }
